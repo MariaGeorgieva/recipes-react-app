@@ -1,0 +1,30 @@
+.container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;;
+}
+
+.category-svg {
+    width: 50px;
+}
+
+.category-li {
+    margin: 16px;
+    display: inline-flex;
+    text-align: center;
+    align-items: center;
+}
+
+
+.category-href {
+    font-family: 'Cookie', sans-serif;
+    font-size: 26px;
+    color: var(--red-primary);
+    display: flex;
+    align-items: center;
+    /* align-content: center; */
+    flex-direction: column;
+}

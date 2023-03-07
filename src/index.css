@@ -5,6 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-image: url("./assets/bakery-product-bg.jpg");
+  background-repeat: repeat;
+  background-size: 1000px;
+  background-position: center;
+  opacity: 1; */
 }
 
 code {

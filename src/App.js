@@ -1,13 +1,18 @@
 import './App.css';
-import Footer from './components/Footer';
-import Header from './components/Header/Header';
-import HeroPosts from './components/HeroSection';
+import Categories from './components/Categoties';
+// import Footer from './components/Footer';
+// import Header from './components/Header/Header';
+ import RecipeList from './components/RecipeList';
+import Hero from './components/Hero';
 
 function App() {
   return (
     <div className="App">
-      <Header />
-      <HeroPosts />
+      <Hero />
+      <Categories />
+
+      {/* <Header /> */}
+      <RecipeList />
 
       {/* <Footer /> */}
     </div>
