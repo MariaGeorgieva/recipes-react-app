@@ -1,7 +1,8 @@
 // import heroImg from '../assets/ana-azevedo.jpg';
 import heroImg from '../assets/ana-azevedo.jpg';
-import logo from '../cake-logo.svg';
+import {ButtonPrimary} from './Buttons';
 import styles from './Hero.module.css';
+import Logo from './Logo';
 
 export default function Hero({ username }) {
 
@@ -9,10 +10,7 @@ export default function Hero({ username }) {
         <header className={styles["container"]}>
 
             <nav className={styles["container-nav"]}>
-                <div className={styles["container-logo"]}>
-                    <img src={logo} alt="logo" className={styles["logo-img"]} />
-                    <h3 className={styles["logo-text"]}>Dessert<br />Lover's</h3>
-                </div>
+                <Logo />
                 <ul className={styles["top-links"]}>
                     <li className={styles["top"]}><a className={styles["top-href"]} href="/">Login</a></li>
                     <li className={styles["top"]}><a className={styles["top-href"]} href="/">Register</a></li>
@@ -54,13 +52,13 @@ export default function Hero({ username }) {
             </nav>
 
             <div className={styles["header-hero"]}>
-                <img src={heroImg} className={styles["hero-img"]} alt="hero"/>
+                <img src={heroImg} className={styles["hero-img"]} alt="hero" />
                 <section className={styles["container-content"]}>
                     <h4 className={styles["hero-subs"]}>You are what you eat, so eat dessert</h4>
                     <h2 className={styles["hero-title"]}>The secret ingredient is — and will always be — love</h2>
-                    <button className={styles["button-primary"]}>Recipes</button>
+                    <ButtonPrimary value={'Recipes'} />
                 </section>
-                {/* <img src={heroImg} className={styles["hero-img"]}/> */}
+    
             </div>
 
 

@@ -1,0 +1,37 @@
+.button-primary {
+    all: unset;
+    margin: 0 20px;
+    background-color: var(--red-primary);
+    color: #fff;
+    /* padding: 8px 16px; */
+    padding: 0.5rem 2.5rem;
+    border: 1px solid var(--red-primary);
+    border-radius: 100px;
+    transition: .5s ease-in-out;
+    text-transform: uppercase;
+    font-size: 16px;
+
+}
+
+.button-primary:hover,
+.button-primary-sm:hover {
+    background-color: transparent;
+    color: var(--red-primary);
+    border-color: var(--red-primary);
+
+}
+
+.button-primary-sm {
+    all: unset;
+    margin: 0 10px;
+    background-color: var(--red-primary);
+    color: #fff;
+    /* padding: 8px 16px; */
+    padding: 0.3rem 2rem;
+    border: 1px solid var(--red-primary);
+    border-radius: 100px;
+    transition: .5s ease-in-out;
+    text-transform: uppercase;
+    font-size: 12px;
+
+}

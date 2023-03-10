@@ -1,4 +1,4 @@
-const baseUrl = 'https://www.themealdb.com/api/json/v1/1/';
+const baseUrl = 'https://api.spoonacular.com/recipes/';
 
 const options = {
     method: 'GET',
@@ -7,26 +7,29 @@ const options = {
     }
 };
 
-export const getRandomRecipe = async () => {
 
-    const res = await fetch(baseUrl + "/random.php");
-    const result = await res.json();
-    return (result.meals);
+export const getRecipeCategory = async (categoryStr, numberOfRecipes) => {
+    try {
+        // const res = await fetch('https://api.spoonacular.com/recipes/complexSearch?query=donut&number=8', options)
+        const res = await fetch(`${baseUrl}/complexSearch?query=${categoryStr}&number=${numberOfRecipes}`, options)
+        const result = await res.json()
+        return (result.results);
+    } catch (error) {
+        console.error("error: " + error)
+    }
+
 }
 
+export const getRecipeById = async (id) => {
 
-export const spoonacularTest = async() =>{
-  
-    const res = await fetch('https://api.spoonacular.com/recipes/complexSearch?query=donut&number=8', options)
-    const result = await res.json()
-    return (result.results);
-        // .catch(err => console.error(err));
+    try {
+        // https://api.spoonacular.com/recipes/{id}/information
+        const res = await fetch(`${baseUrl}${id}/information?includeNutrition=false`, options);
+        const result = await res.json();
+        console.log(result);
+        return result;
+
+    } catch (error) {
+        console.error("error: " + error)
+    }
 }
-
-// export const spoonacularTest = async() =>{
-  
-//     fetch('https://api.spoonacular.com/recipes/complexSearch?query=cake&number=10', options)
-//         .then(response => response.json())
-//         .then(response => console.log(response))
-//         .catch(err => console.error(err));
-// }

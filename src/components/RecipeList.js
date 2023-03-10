@@ -1,29 +1,16 @@
 import { useEffect, useState } from 'react';
 import * as recipeService from '../services/recipeService';
 import styles from './RecipeList.module.css'
-
 import Recipe from './Recipe';
+import RecipeDetails from './RecipeDetails';
 
 export default function RecipeList() {
-
-    // const [recipes, setRecipes] = useState([]);
-    const [spoonacularTest, spoonacularTestRecipes] = useState([]);
-
-    // useEffect(() => {
-    //     recipeService.getRandomRecipe()
-    //         .then(recipes => {
-    //             setRecipes(recipes);
-    //         })
-    //         .catch(err => {
-    //             console.log("Error" + err);
-    //         });
-
-    // }, []); //empty array!
+    const [spoonacularApiRecipes, spoonacularTestRecipes] = useState([]);
+    const [selectedRecipe, setSelectedRecipe] = useState(null);
 
     useEffect(() => {
-        recipeService.spoonacularTest()
+        recipeService.getRecipeCategory('cake', 8)
             .then(spoonacularTest => {
-                // setTastyRecipes(tastyRecipes);
                 spoonacularTestRecipes(spoonacularTest);
             })
             .catch(err => {
@@ -32,11 +19,27 @@ export default function RecipeList() {
 
     }, []); //empty array!
 
+    const onClickDetails = async (id) => {
+        const recipe = await recipeService.getRecipeById(id);
+        console.log(recipe)
+        setSelectedRecipe(recipe);
+    }
+
     return (
-        <div className={styles["hero"]}>
-            <>
-            {spoonacularTest.map(r => <Recipe key={r.id} {...r}/>)}
-            </>
-        </div>
+        <>
+                {/* TODO Recipe view */}
+                {selectedRecipe && <RecipeDetails {...selectedRecipe} onClickDetails={onClickDetails} />}
+
+                <h2 className={styles["title-categories"]}>Last <span>Cake</span> recipes</h2>
+                <div className={styles["container-articles"]}>
+                    {spoonacularApiRecipes
+                        .map(r =>
+                            <Recipe
+                                {...r}
+                                key={r.id}
+                                onClickDetails={onClickDetails}
+                            />)}
+                </div>
+        </>
     );
 }
