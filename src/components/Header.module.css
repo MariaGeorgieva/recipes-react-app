@@ -80,7 +80,13 @@
 }
 
 .top-href {
-    text-decoration: none;
     color: var(--red-primary);
     font-weight: bold;
+}
+
+.top-href-active {
+   
+    color: var(--red-primary);
+    font-weight: normal;
+    text-decoration:  wavy underline #FF3028;
 }

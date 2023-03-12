@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from './Categories.module.css'
 import cakes from '../assets/cake2.svg'
 import iceCream from '../assets/ice-cream.svg'
@@ -9,24 +10,25 @@ import chocolate from '../assets/chocolate.svg'
 import drinks from '../assets/coffee.svg'
 import dishes from '../assets/dinner-table.svg'
 
+
 export default function Categories() {
 
     return (
 
         <ul className={styles["container"]}>
             <li className={styles["category-li"]}>
-                <a href="http:/category/cakes" className={styles["category-href"]}>
-                    <img className={styles["category-svg"]} src={cakes} alt="Cakes" />Cakes</a>
+                <Link to="category/cakes" className={styles["category-href"]}>
+                    <img className={styles["category-svg"]} src={cakes} alt="Cakes" />Cakes</Link>
             </li>
 
             <li className={styles["category-li"]}>
-                <a href="http:/category/muffins" className={styles["category-href"]}>
-                    <img className={styles["category-svg"]} src={muffin} alt="Cupcakes" />Cupcakes</a>
+                <Link to="category/muffins" className={styles["category-href"]}>
+                    <img className={styles["category-svg"]} src={muffin} alt="Cupcakes" />Cupcakes</Link>
             </li>
 
             <li className={styles["category-li"]}>
-                <a href="http:/category/muffins" className={styles["category-href"]}>
-                    <img className={styles["category-svg"]} src={donut} alt="Donuts" />Donuts</a>
+                <Link to="category/muffins" className={styles["category-href"]}>
+                    <img className={styles["category-svg"]} src={donut} alt="Donuts" />Donuts</Link>
             </li>
 
             <li className={styles["category-li"]}>
@@ -35,28 +37,28 @@ export default function Categories() {
             </li>
 
             <li className={styles["category-li"]}>
-                <a href="http:/category/muffins" className={styles["category-href"]}>
-                    <img className={styles["category-svg"]} src={croissant} alt="Croissants" />Croissants</a>
+                <Link to="category/muffins" className={styles["category-href"]}>
+                    <img className={styles["category-svg"]} src={croissant} alt="Croissants" />Croissants</Link>
             </li>
 
             <li className={styles["category-li"]}>
-                <a href="http:/category/muffins" className={styles["category-href"]}>
-                    <img className={styles["category-svg"]} src={chocolate} alt="Chocolate" />Chocolate</a>
+                <Link to="category/muffins" className={styles["category-href"]}>
+                    <img className={styles["category-svg"]} src={chocolate} alt="Chocolate" />Chocolate</Link>
             </li>
 
             <li className={styles["category-li"]}>
-                <a href="http:/category/ice-cream" className={styles["category-href"]}>
-                    <img className={styles["category-svg"]} src={iceCream} alt="Ice cream" />Ice cream</a>
+                <Link to="category/ice-cream" className={styles["category-href"]}>
+                    <img className={styles["category-svg"]} src={iceCream} alt="Ice cream" />Ice cream</Link>
             </li>
 
             <li className={styles["category-li"]}>
-                <a href="http:/category/muffins" className={styles["category-href"]}>
-                    <img className={styles["category-svg"]} src={drinks} alt="Drinks" />Drinks</a>
+                <Link to="category/muffins" className={styles["category-href"]}>
+                    <img className={styles["category-svg"]} src={drinks} alt="Drinks" />Drinks</Link>
             </li>
 
             <li className={styles["category-li"]}>
-                <a href="http:/category/muffins" className={styles["category-href"]}>
-                    <img className={styles["category-svg"]} src={dishes} alt="Drinks" />Dishes</a>
+                <Link to="category/muffins" className={styles["category-href"]}>
+                    <img className={styles["category-svg"]} src={dishes} alt="Drinks" />Romantic Dessert</Link>
             </li>
 
 

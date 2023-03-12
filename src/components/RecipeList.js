@@ -3,10 +3,12 @@ import * as recipeService from '../services/recipeService';
 import styles from './RecipeList.module.css'
 import Recipe from './Recipe';
 import RecipeDetails from './RecipeDetails';
+import { Link, useParams } from 'react-router-dom';
 
 export default function RecipeList() {
     const [spoonacularApiRecipes, spoonacularTestRecipes] = useState([]);
     const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const { recipeId } = useParams();
 
     useEffect(() => {
         recipeService.getRecipeCategory('cake', 8)
@@ -21,15 +23,13 @@ export default function RecipeList() {
 
     const onClickDetails = async (id) => {
         const recipe = await recipeService.getRecipeById(id);
-        console.log(recipe)
         setSelectedRecipe(recipe);
     }
 
     return (
         <>
                 {/* TODO Recipe view */}
-                {selectedRecipe && <RecipeDetails {...selectedRecipe} onClickDetails={onClickDetails} />}
-
+               
                 <h2 className={styles["title-categories"]}>Last <span>Cake</span> recipes</h2>
                 <div className={styles["container-articles"]}>
                     {spoonacularApiRecipes

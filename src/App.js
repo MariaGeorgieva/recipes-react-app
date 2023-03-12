@@ -1,20 +1,28 @@
+import { Routes, Route } from 'react-router-dom'
 import './App.css';
-import Categories from './components/Categoties';
-// import Footer from './components/Footer';
-// import Header from './components/Header/Header';
- import RecipeList from './components/RecipeList';
-import Hero from './components/Hero';
+
+import Footer from './components/Footer';
+import Register from './components/Register';
+import Login from './components/Login';
+import Navigation from './components/Navigation';
+import Homepage from './components/Homepage';
+import RecipeDetails from './components/RecipeDetails';
+import RecipeList from './components/RecipeList';
 
 function App() {
   return (
     <div className="App">
-      <Hero />
-      <Categories />
+      <Navigation />
 
-      {/* <Header /> */}
-      <RecipeList />
+      <Routes>
+        <Route path='/' element={<Homepage />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/recipes' element={<RecipeList />} />
+        <Route path='/recipes/:recipeId/' element={<RecipeDetails />} />
+      </Routes>
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

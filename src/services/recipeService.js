@@ -26,7 +26,7 @@ export const getRecipeById = async (id) => {
         // https://api.spoonacular.com/recipes/{id}/information
         const res = await fetch(`${baseUrl}${id}/information?includeNutrition=false`, options);
         const result = await res.json();
-        console.log(result);
+        // console.log(result);
         return result;
 
     } catch (error) {
