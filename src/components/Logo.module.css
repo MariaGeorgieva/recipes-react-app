@@ -19,3 +19,13 @@
     font-weight: bold;
     text-align: center;
 }
+
+.logo-text-white{
+    font-family: 'Cookie';
+    line-height: 0.8;
+    font-size: 2rem;
+    color: #fff;
+    font-weight: normal;
+    text-align: center;
+}
+

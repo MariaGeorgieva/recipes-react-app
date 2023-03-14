@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './TextInput.css';
+import styles from './InputField.module.css';
 
-export default function TextInput({ type = 'text', label }) {
+export default function TextInput({ type = 'text', label,  }) {
   const [value, setValue] = useState('');
 
   function handleChange(e) {
@@ -9,7 +9,7 @@ export default function TextInput({ type = 'text', label }) {
   }
 
   return (
-    <div className="input-container">
+    <div className={styles["input-container"]}>
       <input type={type} value={value} onChange={handleChange} />
       <label className={value && 'filled'} htmlFor={label}>
         {label}

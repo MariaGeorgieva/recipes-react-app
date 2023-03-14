@@ -32,11 +32,12 @@
   
 }
 
-.input-container input {
-  height: 64px;
+.input-container textarea {
+  min-width: 350px;
+  max-width: 350px;
   border-radius: 4px;
   border: none;
-  padding: 24px 16px 4px 16px;
+  padding: 38px 16px 40px 16px;
   font-size: 16px;
   line-height: 1;
   outline: none;

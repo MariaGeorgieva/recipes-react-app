@@ -1,0 +1,10 @@
+.list-element{
+    width: fit-content;
+    line-height: 28px;
+    margin: 0 0 0.75em;
+}
+
+.mat-icon {
+    color: var(--green-mint);
+    margin-right: 16px;
+}

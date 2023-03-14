@@ -1,8 +1,8 @@
 import styles from './Forms.module.css';
 import { ButtonPrimary } from './Buttons'
 import imgCard from "../assets/card1-login.jpg"
-import Logo from './Logo';
-import TextInput from './TextInput';
+import {Logo} from './Logo';
+import InputField from './InputField';
 
 
 export default function Login() {
@@ -16,7 +16,8 @@ export default function Login() {
     return (
         <div className={styles["container"]}>
 
-            <div className={styles["container-form"]}>
+            {/* <div id={"login"} className={styles["container-form"]}> */}
+            <div id={"login"} className={`${styles['container-form']} ${styles.login}`} >
                 <img className={styles["img"]} src={imgCard} alt="Cake Lovers" />
                 <div className={styles["container-form-column"]}>
                     <Logo />
@@ -25,8 +26,8 @@ export default function Login() {
                     <form action="/" className={styles["form"]} >
 
                         {/* <TextInput label="Username" /> */}
-                        <TextInput label="Email" />
-                        <TextInput label="Password" type={'password'} />
+                        <InputField label="Email" />
+                        <InputField label="Password" type={'password'} />
                         {/* <TextInput label="Repeat Password" type={'password'} /> */}
                         <ButtonPrimary value={'Login'} clickHandler={(e) => onSubmitHandler(e)} />
                     </form>

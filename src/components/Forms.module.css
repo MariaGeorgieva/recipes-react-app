@@ -1,5 +1,5 @@
 .container {
-    margin: 60px auto;
+    margin: 30px auto;
 }
 
 
@@ -41,6 +41,12 @@
     /* color: var(--red-primary); */
 }
 
-.form{
+.form {
     text-align: center;
 }
+
+/* login form */
+.container-form.login  {
+    max-height: 450px;
+}
+

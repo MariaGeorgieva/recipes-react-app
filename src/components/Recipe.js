@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import * as recipeService from '../services/recipeService';
+import { Link } from 'react-router-dom'
 
 import styles from './RecipeList.module.css';
 import { MdFavoriteBorder, MdGrade } from "react-icons/md";
@@ -11,12 +9,8 @@ export default function Recipe({
     id,
     image,
     title,
-    onClickDetails,
 }) {
-    
-    // const onBackButtonClick = () => {
-    //     navigate('/characters');
-    // };
+
     return (
         <>
             <article className={styles["articles"]}>
@@ -26,9 +20,9 @@ export default function Recipe({
                 <div className={styles['hero-recipe-info']} >
                     <h2 className={styles["hero-recipe-title"]}>{title}</h2>
                     <div className={styles["recipe-buttons"]}>
-                        <Link to={`/recipes/${id}`}>{'View details'}</Link>
-                        {/* <ButtonPrimarySm value={'View details'} clickHandler={() => onClickDetails(id)} /> */}
-
+                        <Link to={`/recipes/${id}`}>
+                            <ButtonPrimarySm value={'View details'} />
+                        </Link>
                         <button className={styles["material-icons"]}><MdGrade /></button>
                         <button className={styles["material-icons"]}><MdFavoriteBorder />  </button>
                     </div>

@@ -1,14 +1,14 @@
 import styles from './Forms.module.css';
 import { ButtonPrimary } from './Buttons'
 import imgCard from "../assets/card2-register.jpg"
-import Logo from './Logo';
-import TextInput from './TextInput';
+import { Logo } from './Logo';
+import InputField from './InputField';
 
 
 export default function Register() {
 
     const onSubmitHandler = (e) => {
-          // TODO
+        // TODO
         e.preventDefault();
         console.log("Click Register");
     }
@@ -23,11 +23,10 @@ export default function Register() {
                     <h2 className={styles["title"]}>Create Account</h2>
                     {/* <form action="/register" method='POST'> */}
                     <form action="/" className={styles["form"]} >
-
-                        <TextInput label="Username" />
-                        <TextInput label="Email" />
-                        <TextInput label="Password" type={'password'} />
-                        <TextInput label="Repeat Password" type={'password'} />
+                        <InputField label="Username" />
+                        <InputField label="Email" />
+                        <InputField label="Password" type={'password'} />
+                        <InputField label="Repeat Password" type={'password'} />
                         <ButtonPrimary value={'Register'} clickHandler={(e) => onSubmitHandler(e)} />
                     </form>
                 </div>

@@ -1,77 +1,106 @@
-import IngredientsList from "./IngredientsList";
 import { useParams } from 'react-router-dom'
-
 import { useState, useEffect } from 'react'
 import * as recipeService from '../services/recipeService';
+import styles from './RecipeDetails.module.css'
 
-export default function RecipeDetails({
-    // id,
-    // title,
-    // dishTypes,
-    // image,
-    // summary,
-    // extendedIngredients,
-    // instructions,
-    // preparationMinutes,
-    // readyInMinutes,
-    // servings,
-    // sourceName,
-    // sourceUrl,
+import IngredientsList from "./IngredientsList";
+import LoadingSpinner from "./LoadingSpinner";
 
-}) {
+import meal from '../assets/meal.svg'
+import prep from '../assets/prep.svg'
+import time from '../assets/time.svg'
+import servings from '../assets/servings.svg'
+
+export default function RecipeDetails() {
     const { recipeId } = useParams();
-    console.log("Give regipe id: " + recipeId)
-    // const navigate = useNavigate();
-
     const [recipe, setRecipe] = useState({});
-
-    // useEffect(() => {
-    //     recipeService.getRecipeById(recipeId)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log("Recipe : " + data)
-    //             setRecipe(data);
-    //         })
-    // }, [recipeId])
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-       recipeService.getRecipeById(recipeId)
-            .then(data => {
-                console.log("Recipe : " + data)
-                setRecipe(data);
+        setIsLoading(true);
+        recipeService.getRecipeById(recipeId)
+            .then(recipe => {
+                setRecipe(recipe);
+                setIsLoading(false);
             });
     }, [recipeId])
 
     return (
-        <article>
-            <header>
-                <h2>{recipe.title}</h2>
-                <p>Course: {recipe.dishTypes}</p>
-                <p>Prep Time: {recipe.preparationMinutes}</p>
-                <p>Cook Time: {recipe.readyInMinutes}</p>
-                <p>Servings: {recipe.servings}</p>
-                <h4>{recipe.summary}</h4>
-            </header>
-            <div className="container">
-                <img src={recipe.image} alt={recipe.title} />
-                <div className="container-ingredients">
-                    <h2>Ingredients</h2>
-                    <ul className="list">
-                        {/* {recipe.extendedIngredients.map(i => <IngredientsList key={`${i.id}${i.name}`} {...i} />)} */}
-                    </ul>
-                </div>
-            </div>
-            <div className="container-instructions">
-                <h2>Instructions</h2>
-                {/* <p>{recipe.instructions.split('\r+\n').join("<br />")}</p> */}
+        <>
+            {isLoading ? <LoadingSpinner /> :
+                <article className={styles["container"]}>
+                    <header className={styles["header-container"]}>
+                        <div className={styles["header-img"]}>
+                            <img src={recipe.image} alt={recipe.title} />
+                        </div>
+                        <div className={styles["recipe-info"]}>
+                            <h2>{recipe.title}</h2>
+                            <section className={styles["recipe-info-section"]}>
+                                <div className={styles["recipe-icons"]}>
+                                    <img src={meal} alt="Course" />
+                                    <div className={styles["recipe-icons-text"]}>
+                                        <span>Course</span>
+                                        <strong> {recipe.dishTypes}</strong>
+                                    </div>
+                                </div>
 
-            </div>
-            <footer>
-                <p>Source:
-                    <a href={recipe.sourceUrl} target="_blank" rel="noreferrer" >{recipe.sourceName}</a></p>
-            </footer>
+                                <div className={styles["recipe-icons"]}>
+                                    <img src={prep} alt="Course" />
+                                    <div className={styles["recipe-icons-text"]}>
+                                        <span>Prep Time</span>
+                                        <strong> {recipe.preparationMinutes < 0 ? 0 : recipe.preparationMinutes} min</strong>
+                                    </div>
+                                </div>
+
+                                <div className={styles["recipe-icons"]}>
+                                    <img src={time} alt="Course" />
+                                    <div className={styles["recipe-icons-text"]}>
+                                        <span>Cook Time</span>
+                                        <strong> {recipe.readyInMinutes} min</strong>
+                                    </div>
+                                </div>
+
+                                <div className={styles["recipe-icons"]}>
+                                    <img src={servings} alt="Course" />
+                                    <div className={styles["recipe-icons-text"]}>
+                                        <span>Servings</span>
+                                        <strong> {recipe.servings}</strong>
+                                    </div>
+                                </div>
+                            </section>
+                            <h3 className={styles["summary-title"]}> Summary</h3>
+                            <p className={styles["summary"]} >{recipe.summary}</p>
+                        </div>
+
+                    </header>
 
 
-        </article>
+                    <div className={styles["container-prep"]}>
+                        <div className={styles["ingredients"]}>
+                            <h2>Ingredients</h2>
+                            <ul className="list">
+                                {recipe.extendedIngredients ?
+                                    recipe.extendedIngredients.map(i => <IngredientsList key={`${i.id}${i.name}`} {...i} />)
+                                    : ""}
+
+                            </ul>
+                        </div>
+                        <div className={styles["instructions"]}>
+                            <h2>Instructions</h2>
+                            <div>{recipe.instructions
+                                // ? recipe.instructions.split('\r+\n').join('\n')
+                                ? recipe.instructions
+                                : ""}</div>
+                        </div>
+                    </div>
+                    <footer>
+                        <p>Source:
+                            <a href={recipe.sourceUrl} target="_blank" rel="noreferrer" >{recipe.sourceName}</a></p>
+                    </footer>
+
+
+                </article>
+            }
+        </>
     );
 } 

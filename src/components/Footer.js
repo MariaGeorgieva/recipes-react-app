@@ -1,15 +1,17 @@
-// import logo from '../logo.svg';
-
+import styles from './Footer.module.css'
+import { LogoWhite } from './Logo';
 export default function Footer() {
 
     return (
-        <footer>
-            {/* <img src={logo} className="footer-logo" alt="Recipes app logo" /> */}
-            <div className="copyright hestia-center">React Recipe App © 2023. &copy;All Right reserved! 
-            {/* TODO rigth way */}
-            <a href="mailto:m.georgieva17@icloud.com">Design @mlove</a> </div>
+        <footer className={styles.container}>
+            <div className={styles["copyright"]}>
+                <div className={styles.logo}>
+                    <LogoWhite />
+                    <a href="mailto:m.georgieva17@icloud.com"> <span>Designed and Built by <strong>@mlove</strong> </span>  </a>
+                </div>
 
-
-        </footer>
+                <p>Sweets Lovers - React SPA App © 2023. &copy; All Right reserved!</p>
+            </div>
+        </footer >
     );
 }
