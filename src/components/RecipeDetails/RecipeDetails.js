@@ -1,15 +1,16 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import * as recipeService from '../services/recipeService';
-import styles from './RecipeDetails.module.css'
+// import * as recipeService from './services/recipeService';
+import * as recipeService from '../../services/recipeService'
+import styles from '../RecipeDetails/RecipeDetails.module.css'
 
-import IngredientsList from "./IngredientsList";
-import LoadingSpinner from "./LoadingSpinner";
+import IngredientsList from "../IngredientsList/IngredientsList";
+import LoadingSpinner from "../LoadingSpiner/LoadingSpinner";
 
-import meal from '../assets/meal.svg'
-import prep from '../assets/prep.svg'
-import time from '../assets/time.svg'
-import servings from '../assets/servings.svg'
+import meal from '../../assets/meal.svg'
+import prep from '../../assets/prep.svg'
+import time from '../../assets/time.svg'
+import servings from '../../assets/servings.svg'
 
 export default function RecipeDetails() {
     const { recipeId } = useParams();

@@ -1,5 +1,5 @@
-import styles from './Footer.module.css'
-import { LogoWhite } from './Logo';
+import styles from '../Footer/Footer.module.css'
+import { LogoWhite } from '../Logo/Logo';
 export default function Footer() {
 
     return (

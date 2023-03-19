@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom'
-import styles from './Header.module.css';
-import {Logo} from './Logo';
+import styles from '../Header/Header.module.css';
+import { Logo } from '../Logo/Logo';
 
 export default function Navigation({
-    username
+    username = "maria"
 }) {
-    
+
     return (
         <nav className={styles["container-nav"]}>
             <Logo />
@@ -18,7 +18,7 @@ export default function Navigation({
                 </li>
 
                 <li className={styles["top"]}>
-                <NavLink to="/categories"
+                    <NavLink to="/categories"
                         className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>
                         Categories
                     </NavLink>
@@ -27,9 +27,14 @@ export default function Navigation({
             </ul>
             <ul className={styles["top-links"]}>
                 {username ?
-                    <li className={styles["top"]}>
-                        <NavLink to="/profile" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Hello {username}</NavLink>
-                    </li> :
+                    <>
+                        <li className={styles["top"]}>
+                            <NavLink to="/profile" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Hello {username}</NavLink>
+                        </li>
+                        <li className={styles["top"]}>
+                            <NavLink to="/recipes/create" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Add recipe</NavLink>
+                        </li>
+                    </> :
                     <>
                         <li className={styles["top"]}><NavLink to="/login" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Login</NavLink></li>
                         <li className={styles["top"]}><NavLink to="/register" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Register</NavLink></li>
@@ -41,9 +46,9 @@ export default function Navigation({
 
             {/* <ul className={styles["profile-links"]}>
                 <li className={styles["profile"]}> */}
-                
-                    {/* <a className={styles["profile-href"]} href="/">Profile</a> */}
-                    {/* </li>
+
+            {/* <a className={styles["profile-href"]} href="/">Profile</a> */}
+            {/* </li>
                 <li className={styles["profile"]}>
                     <a className={styles["profile-href"]} href="/">My Recipes</a>
                 </li>
@@ -56,7 +61,7 @@ export default function Navigation({
                 <li className={styles["profile"]}>
                     <a className={styles["profile-href"]} href="/">Logout</a>
                 </li> */}
-                {/* </li>
+            {/* </li>
             </ul> */}
         </nav >
 

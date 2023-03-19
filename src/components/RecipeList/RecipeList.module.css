@@ -1,0 +1,14 @@
+.title-categories {
+    margin: 30px 0;
+    text-align: center;
+}
+
+/* Card recipes API */
+.container-articles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    justify-items: center;
+    gap: 30px;
+    margin: auto 20px;
+}

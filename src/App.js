@@ -1,14 +1,14 @@
 import { Routes, Route } from 'react-router-dom'
 import './App.css';
 
-import Footer from './components/Footer';
-import Register from './components/Register';
-import Login from './components/Login';
-import Navigation from './components/Navigation';
-import Homepage from './components/Homepage';
-import RecipeDetails from './components/RecipeDetails';
-import RecipeList from './components/RecipeList';
-import CreateRecipe from './components/CreateRecipe';
+import Footer from './components/Footer/Footer';
+import Register from './components/Auth/Register';
+import Login from './components/Auth/Login';
+import Navigation from './components/Header/Navigation';
+import Homepage from './components/Homepage/Homepage';
+import RecipeDetails from './components/RecipeDetails/RecipeDetails';
+import RecipeList from './components/RecipeList/RecipeList';
+import CreateRecipe from './components/CreateRecipe/CreateRecipe';
 
 function App() {
   return (

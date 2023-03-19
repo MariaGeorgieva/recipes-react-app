@@ -24,5 +24,5 @@ function ButtonPrimarySm(props) {
 
 export {
     ButtonPrimary,
-    ButtonPrimarySm
+    ButtonPrimarySm,
 }

@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import InputField from './InputField';
-import { ButtonPrimary } from './Buttons'
-import TextAria from './TextAria';
+import InputField from '../InputField/InputField';
+import { ButtonPrimary } from '../Buttons/Buttons'
+import TextAria from '../TextAria/TextAria';
 // import {Logo} from './Logo'
 
-import styles from './CreateRecipe.module.css'
+import styles from '../CreateRecipe/CreateRecipe.module.css'
+import StepsInputField from '../CreateRecipe/StepsInputField';
 
 
 export default function CreateRecipe() {
@@ -15,8 +16,8 @@ export default function CreateRecipe() {
             ingredient: ''
         }
     ]);
-    const [inputSteps, setInpuSteps] = useState([{ instruction: '' }
-    ]);
+
+    const [inputSteps, setInpuSteps] = useState([{ instruction: '' }]);
 
     const submit = (e) => {
         e.preventDefault();
@@ -24,12 +25,6 @@ export default function CreateRecipe() {
         console.log(inputIngredients)
         console.log('Steps:')
         console.log(inputSteps)
-    }
-
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
-        // TODO
-        console.log("Click Login");
     }
 
     const handleInputIngredientsChange = (index, event) => {
@@ -85,7 +80,7 @@ export default function CreateRecipe() {
                                 <InputField label="Image URL*" type={'text'} />
                                 {/* <InputField label="Category*" type={'text'} /> */}
 
-
+                                {/* TODO dynamic category */}
                                 <div className={styles["input-container"]}>
                                     <select name="category" id="category">
                                         <option value="volvo">Volvo</option>
@@ -142,33 +137,24 @@ export default function CreateRecipe() {
                                 <p className={styles["info"]}>*Enter one ingredient at a time.</p>
                                 <button className={styles['btn-add']} onClick={addIngredientField} > + Add Ingredient</button>
                             </div>
-                            {/* <hr /> */}
+
+                            {/* Method Dynamic List */}
                             <div className={styles["wrapper"]}>
                                 <h3 className={styles["title-ing"]}>Method*</h3>
                                 {inputSteps.map((input, index) => {
                                     return (
-                                        <div key={index} className={styles["input-container-ing"]}>
-                                            <p>{`Step ${index + 1}`}</p>
-                                            <div className={styles["input-container"]}>
-                                                <input
-                                                    name='instruction'
-                                                    // placeholder='instruction'
-                                                    value={input.instruction}
-                                                    onChange={event => handleInputStepsChange(index, event)}
-                                                />
-                                                <label className={input.instruction && 'filled'} htmlFor={input.instruction}>
-                                                    {'instruction'}
-                                                </label>
-                                            </div>
-                                            <button className={styles['btn-remove']} onClick={() => removeStepsFields(index)}>remove</button>
-                                        </div>
+                                        <StepsInputField key={index}
+                                            input={input}
+                                            index={index}
+                                            removeStepsFields={removeStepsFields}
+                                            handleInputStepsChange={handleInputStepsChange} />
                                     )
-                                })}
+                                })
+                                }
                                 <p className={styles["info"]}>*Enter one step at a time.</p>
                                 <button className={styles['btn-add']} onClick={addStepsField} > + Add Step</button>
                             </div>
 
-                            {/* <button onClick={submit}>Submit</button> */}
                         </div>
                         <div className={styles["wrapper"]}>
                             < ButtonPrimary value={'Create My Recipe'} type={'submit'} />

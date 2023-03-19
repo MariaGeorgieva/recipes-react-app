@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 
-import styles from './RecipeList.module.css';
+import styles from '../Recipe/Recipe.module.css';
 import { MdFavoriteBorder, MdGrade } from "react-icons/md";
-import { ButtonPrimarySm } from './Buttons';
+import { ButtonPrimarySm } from '../Buttons/Buttons';
 
 
 export default function Recipe({

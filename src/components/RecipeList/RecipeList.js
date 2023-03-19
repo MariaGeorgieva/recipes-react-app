@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import * as recipeService from '../services/recipeService';
+import * as recipeService from '../../services/recipeService';
 import styles from './RecipeList.module.css'
-import Recipe from './Recipe';
-import LoadingSpinner from "./LoadingSpinner";
+import Recipe from '../Recipe/Recipe';
+import LoadingSpinner from "../LoadingSpiner/LoadingSpinner";
 
 
 export default function RecipeList() {

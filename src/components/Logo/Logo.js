@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 import styles from './Logo.module.css'
-import logo from '../cake-logo.svg';
+import logo from '../../cake-logo.svg';
 
  function Logo() {
 

@@ -1,5 +1,5 @@
-import heroImg from '../assets/ana-azevedo.jpg';
-import { ButtonPrimary } from './Buttons';
+import heroImg from '../../assets/ana-azevedo.jpg';
+import { ButtonPrimary } from '../Buttons/Buttons';
 import styles from './Header.module.css';
 
 export default function Hero() {
@@ -15,10 +15,5 @@ export default function Hero() {
             </section>
 
         </div>
-
-
-
-
-
     )
 }

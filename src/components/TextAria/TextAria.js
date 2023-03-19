@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './TextAria.module.css';
+import styles from '../TextAria/TextAria.module.css';
 
 export default function TextAria({ id = 'text', rows = 'text', cols = 'number', label }) {
   const [value, setValue] = useState('');
