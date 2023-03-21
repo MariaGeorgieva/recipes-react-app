@@ -27,16 +27,8 @@ export default function Login() {
                     <h2 className={styles["title"]}>Login</h2>
 
                     <Form submit={onSubmitHandler} initialValues={initialValues}>
-                        <InputField
-                            label="Email"
-                            name="email"
-                            type="text"
-                        />
-                        <InputField
-                            label="Password"
-                            name="password"
-                            type="password"
-                        />
+                        <InputField label="Email" name="email" type="text" />
+                        <InputField label="Password" name="password" type="password" />
                     </Form>
                 </div>
 

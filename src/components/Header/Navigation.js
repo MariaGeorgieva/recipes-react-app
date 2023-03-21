@@ -3,6 +3,7 @@ import styles from '../Header/Header.module.css';
 import { Logo } from '../Logo/Logo';
 
 export default function Navigation({
+    // TODO User authentication
     username = "maria"
 }) {
 
