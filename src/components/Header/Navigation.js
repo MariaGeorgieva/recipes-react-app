@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom'
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import styles from '../Header/Header.module.css';
 import { Logo } from '../Logo/Logo';
 
-export default function Navigation({
-    // TODO User authentication
-    username = "maria"
-}) {
+export default function Navigation() {
+    const { isAuthenticated, userEmail } = useContext(AuthContext);
+
 
     return (
         <nav className={styles["container-nav"]}>
@@ -27,10 +28,10 @@ export default function Navigation({
 
             </ul>
             <ul className={styles["top-links"]}>
-                {username ?
+                {isAuthenticated ?
                     <>
                         <li className={styles["top"]}>
-                            <NavLink to="/profile" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Hello {username}</NavLink>
+                            <NavLink to="/profile" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Hello {userEmail}</NavLink>
                         </li>
                         <li className={styles["top"]}>
                             <NavLink to="/recipes/create" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Add recipe</NavLink>
@@ -39,7 +40,8 @@ export default function Navigation({
                     <>
                         <li className={styles["top"]}><NavLink to="/login" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Login</NavLink></li>
                         <li className={styles["top"]}><NavLink to="/register" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Register</NavLink></li>
-                    </>}
+                    </>
+                }
             </ul>
 
             {/* TODO Hidden logged in user */}

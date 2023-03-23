@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { FormContext } from '../Auth/Form';
+import { FormContext } from '../../context/FormContext';
 import styles from '../TextAria/TextAria.module.css';
 
 export default function TextAria(props) {

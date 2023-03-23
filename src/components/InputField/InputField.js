@@ -1,7 +1,8 @@
 // import React, { useState } from 'react';
 import styles from '../InputField/InputField.module.css';
 import { useContext } from 'react';
-import { FormContext } from '../Auth/Form';
+import { FormContext } from '../../context/FormContext';
+
 
 export default function InputField(props) {
   const {

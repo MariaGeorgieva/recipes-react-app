@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Form from '../Auth/Form';
+import Form from '../Form/Form';
 import InputField from '../InputField/InputField';
 // import { ButtonPrimary } from '../Buttons/Buttons'
 import TextAria from '../TextAria/TextAria';
@@ -71,6 +71,7 @@ export default function RecipeCreate() {
 
     }
 
+    // REMOVE Dynamic Input Fields
     const removeDynamicInputFields = (index, e) => {
         e.preventDefault();
 

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../Buttons/Buttons.module.css'
+import { FormContext } from '../../context/FormContext';
 
-export const FormContext = React.createContext({
-    form: {}
-});
+
 
 export default function Form(props) {
     const { children, submit = () => { }, initialValues } = props;

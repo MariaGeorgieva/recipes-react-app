@@ -1,8 +1,8 @@
-import styles from '../Auth/Forms.module.css';
+import styles from '../Form/Forms.module.css';
 import imgCard from "../../assets/card2-register.jpg"
 import { Logo } from '../Logo/Logo';
 import InputField from '../InputField/InputField';
-import Form from './Form';
+import Form from '../Form/Form';
 
 
 export default function Register() {
