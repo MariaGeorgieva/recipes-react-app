@@ -4,7 +4,7 @@ import { FormContext } from '../../context/FormContext';
 
 
 
-export default function Form(props) {
+export default function FormProvider(props) {
     const { children, submit = () => { }, initialValues } = props;
 
     const [form, setForm] = useState(initialValues);

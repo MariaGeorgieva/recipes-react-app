@@ -11,6 +11,7 @@ import RecipeDetails from './components/RecipeDetails/RecipeDetails';
 import RecipeList from './components/RecipeList/RecipeList';
 import RecipeCreate from './components/RecipeCreate/RecipeCreate';
 import AuthProvider from './components/AuthProvider/AuthProvider';
+import  Logout  from './components/Logout/Logout';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path='/' element={<Homepage />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/logout' element={<Logout />} />
           <Route path='/recipes' element={<RecipeList />} />
           <Route path='/recipes/:recipeId/' element={<RecipeDetails />} />
           <Route path='/recipes/create/' element={<RecipeCreate />} />

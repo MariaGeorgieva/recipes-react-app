@@ -5,8 +5,7 @@ import styles from '../Header/Header.module.css';
 import { Logo } from '../Logo/Logo';
 
 export default function Navigation() {
-    const { isAuthenticated, userEmail } = useContext(AuthContext);
-
+    const { isAuthenticated, username } = useContext(AuthContext);
 
     return (
         <nav className={styles["container-nav"]}>
@@ -31,10 +30,13 @@ export default function Navigation() {
                 {isAuthenticated ?
                     <>
                         <li className={styles["top"]}>
-                            <NavLink to="/profile" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Hello {userEmail}</NavLink>
+                            <NavLink to="/profile" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Hello {username}</NavLink>
                         </li>
                         <li className={styles["top"]}>
                             <NavLink to="/recipes/create" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Add recipe</NavLink>
+                        </li>
+                         <li className={styles["top"]}>
+                            <NavLink to="/logout" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Logout</NavLink>
                         </li>
                     </> :
                     <>

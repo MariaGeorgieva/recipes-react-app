@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Form from '../Form/Form';
+import FormProvider from '../FormProvider/FormProvider';
 import InputField from '../InputField/InputField';
 // import { ButtonPrimary } from '../Buttons/Buttons'
 import TextAria from '../TextAria/TextAria';
@@ -95,7 +95,7 @@ export default function RecipeCreate() {
 
                     <h2 className={styles["title"]}>Create a New Recipe</h2>
                     {/* <form action="/register" method='POST'> */}
-                    <Form submit={onSubmitHandler} initialValues={initialValues}>
+                    <FormProvider submit={onSubmitHandler} initialValues={initialValues}>
                         <div className={styles["form"]}>
                             <div>
                                 <InputField label="Title*" name="title" type="text" />
@@ -163,7 +163,7 @@ export default function RecipeCreate() {
                                 <button className={styles['btn-add']} onClick={addDynamicInputField} name="stepsBtn"> + Add Step</button>
                             </div>
                         </div>
-                    </Form>
+                    </FormProvider>
                 </div>
             </div >
         </div >
