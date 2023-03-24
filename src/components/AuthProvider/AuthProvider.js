@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { authServiceFactory } from '../../services/authService';
-export default function AuthProvider({ children }) {
-    // const { children, initialValues } = props;
+import { useLocalStorage} from  '../../hooks/useLocalStorage'
 
-    const [auth, setAuth] = useState({});
+
+export default function AuthProvider({ children }) {
+
+    const [auth, setAuth] = useLocalStorage('auth', {});
 
     const userLogin = (authData) => {
         setAuth(authData);
@@ -14,7 +14,6 @@ export default function AuthProvider({ children }) {
         setAuth(authData);
     };
 
-    const authService = authServiceFactory(auth.accessToken)
 
     const userLogout = () => {
         setAuth({});
@@ -23,7 +22,6 @@ export default function AuthProvider({ children }) {
     const contextValues = {
         userLogin,
         userRegister,
-        // onRegisterSubmit,
         userLogout,
         userId: auth._id,
         token: auth.accessToken,

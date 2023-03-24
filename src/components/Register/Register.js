@@ -1,31 +1,39 @@
-import styles from '../FormProvider/Forms.module.css';
+import { useNavigate } from 'react-router-dom';
 import { authServiceFactory } from '../../services/authService';
+import { useAuthContext } from '../../context/AuthContext';
 
+import styles from '../FormProvider/Forms.module.css';
 import imgCard from "../../assets/card2-register.jpg"
 import { Logo } from '../Logo/Logo';
 import InputField from '../InputField/InputField';
 import Form from '../FormProvider/FormProvider';
-import { useAuthContext } from '../../context/AuthContext';
+
+
 
 
 export default function Register() {
-    const { userRegister, auth } = useAuthContext();
-    const authService = authServiceFactory()
+    const { userRegister,  token } = useAuthContext();
+    const authService = authServiceFactory(token);
+    const navigate = useNavigate();
 
     const initialValues = {
-        // username:'',
+        username: '',
         email: '',
         password: '',
-        // repass: '',
+        repass: '',
     };
 
     const onSubmitHandler = async (formData) => {
-        console.log(formData);
-        // setMessage(`Thanks for signing up, ${form.email}! We've sent you an email to ${form.email}.`);
+
         try {
-            const responce = await authService.register(formData);
-            console.log('responce', responce);
-            userRegister(responce)
+            
+            if (formData.password !== formData.repass) {
+                return; //TODO user error
+            }
+            const user = await authService.register(formData);
+            console.log('responce', user);
+            userRegister(user);
+            navigate('/')
         } catch (error) {
             console.log("error: " + error);
         }
@@ -41,10 +49,10 @@ export default function Register() {
                     <h2 className={styles["title"]}>Create Account</h2>
 
                     <Form submit={onSubmitHandler} initialValues={initialValues} className={styles["form"]}>
-                        {/* <InputField label="Username" name="username" type="text" /> */}
+                        <InputField label="Username" name="username" type="text" />
                         <InputField label="Email" name="email" type="email" />
                         <InputField label="Password" type="password" name="password" />
-                        {/* <InputField label="Repeat Password" type="password" name="repass"/> */}
+                        <InputField label="Repeat Password" type="password" name="repass" />
                     </Form>
                 </div>
 

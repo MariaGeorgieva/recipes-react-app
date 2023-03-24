@@ -1,11 +1,12 @@
-// import { useContext } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 import { authServiceFactory } from '../../services/authService';
 
 import styles from '../FormProvider/Forms.module.css';
-
 import imgCard from "../../assets/card1-login.jpg"
 import { Logo } from '../Logo/Logo';
+
 import InputField from '../InputField/InputField';
 import FormProvider from '../FormProvider/FormProvider';
 // import { AuthContext } from '../../context/AuthContext';
@@ -13,31 +14,22 @@ import { useAuthContext } from '../../context/AuthContext';
 
 
 export default function Login() {
-    // const { onLoginSubmit, auth } = useContext(AuthContext);
     const { userLogin } = useAuthContext();
-
     const authService = authServiceFactory()
-    // const authService = authServiceFactory(auth);
+    const navigate = useNavigate();
 
     const initialValuesForm = {
         username: '',
-        email: '',
+        // email: '',
         password: '',
     };
 
     const onSubmitHandler = async (formData) => {
-        console.log('formData', formData);
-        // console.log('auth', auth);
-
         try {
             const user = await authService.login(formData);
-            // const user = await responce.json();
             userLogin(user);
-            // console.log('user', user);
-            // console.log('user', user);
+            navigate("/");
 
-            // setAuth(user)
-            // console.log("auth", auth);
         } catch (error) {
             console.log("error: " + error);
         }
@@ -53,11 +45,10 @@ export default function Login() {
                     <h2 className={styles["title"]}>Login</h2>
                     <FormProvider submit={onSubmitHandler} initialValues={initialValuesForm} id={"login"} method="POST" >
                         <InputField label="Username" name="username" type="text" />
-                        <InputField label="Email" name="email" type="text" />
+                        {/* <InputField label="Email" name="email" type="text" /> */}
                         <InputField label="Password" name="password" type="password" />
                     </FormProvider>
                 </div>
-
             </div>
         </div>
     );
