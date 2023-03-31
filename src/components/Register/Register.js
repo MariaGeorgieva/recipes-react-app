@@ -1,43 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import { authServiceFactory } from '../../services/authService';
-import { useAuthContext } from '../../context/AuthContext';
+import { Link } from "react-router-dom";
+import { useAuthContext } from '../../contexts/AuthContext';
+import { useForm } from "../../hooks/useForm";
 
 import styles from '../FormProvider/Forms.module.css';
 import imgCard from "../../assets/card2-register.jpg"
 import { Logo } from '../Logo/Logo';
 import InputField from '../InputField/InputField';
-import Form from '../FormProvider/FormProvider';
-
+import { ButtonPrimary } from "../Buttons/Buttons";
 
 
 
 export default function Register() {
-    const { userRegister,  token } = useAuthContext();
-    const authService = authServiceFactory(token);
-    const navigate = useNavigate();
+    const { onRegisterSubmit } = useAuthContext();
 
-    const initialValues = {
-        username: '',
+    const { values, onChangeHandler, onSubmit } = useForm({
         email: '',
+        username: '',
         password: '',
-        repass: '',
-    };
-
-    const onSubmitHandler = async (formData) => {
-
-        try {
-            
-            if (formData.password !== formData.repass) {
-                return; //TODO user error
-            }
-            const user = await authService.register(formData);
-            console.log('responce', user);
-            userRegister(user);
-            navigate('/')
-        } catch (error) {
-            console.log("error: " + error);
-        }
-    };
+        rePass: '',
+    }, onRegisterSubmit);
 
     return (
         <div className={styles["container"]}>
@@ -46,14 +27,53 @@ export default function Register() {
                 <img className={styles["img"]} src={imgCard} alt="Cake Lovers" />
                 <div className={styles["container-form-column"]}>
                     <Logo />
-                    <h2 className={styles["title"]}>Create Account</h2>
+                    <h2 className={styles["title"]}>Create an Account</h2>
 
-                    <Form submit={onSubmitHandler} initialValues={initialValues} className={styles["form"]}>
-                        <InputField label="Username" name="username" type="text" />
-                        <InputField label="Email" name="email" type="email" />
-                        <InputField label="Password" type="password" name="password" />
-                        <InputField label="Repeat Password" type="password" name="repass" />
-                    </Form>
+                    <form onSubmit={onSubmit} id="register" method="POST">
+                        <InputField
+                            id="username"
+                            label="Username"
+                            name="username"
+                            type="text"
+                            value={values.username}
+                            onChangeHandler={onChangeHandler}
+                        />
+
+                        <InputField
+                            id="email"
+                            label="email"
+                            name="email"
+                            type="email"
+                            value={values.email}
+                            onChangeHandler={onChangeHandler}
+                        />
+                        <InputField
+                            id="password"
+                            label="Password"
+                            name="password"
+                            type="password"
+                            value={values.password}
+                            onChangeHandler={onChangeHandler}
+                        />
+
+                        <InputField
+                            id="rePass"
+                            label="Repeat Password"
+                            name="rePass"
+                            type="password"
+                            value={values.rePass}
+                            onChangeHandler={onChangeHandler}
+                        />
+
+
+                        <ButtonPrimary type="submit" value={'Register'} />
+
+                    </form>
+
+
+                    <p className={styles["field"]}>
+                        <span>Have an account click <Link to="/login" className={styles["fieldLink"]}>here</Link></span>
+                    </p>
                 </div>
 
             </div>

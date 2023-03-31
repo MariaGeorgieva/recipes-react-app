@@ -1,11 +1,15 @@
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-// import * as recipeService from './services/recipeService';
-import * as recipeService from '../../services/recipeService'
+import * as recipeServiceAPI from '../../services/recipeServiceAPI'
+
+import { recipeServiceFactory } from '../../services/recipeService'
+import { useService } from '../../hooks/useService';
 import styles from '../RecipeDetails/RecipeDetails.module.css'
 
 import IngredientsList from "../IngredientsList/IngredientsList";
+import IngredientsListAPI from "../IngredientsList/IngredientsListAPI";
 import LoadingSpinner from "../LoadingSpiner/LoadingSpinner";
+import { ButtonPrimarySm } from '../Buttons/Buttons';
 
 import meal from '../../assets/meal.svg'
 import prep from '../../assets/prep.svg'
@@ -17,13 +21,26 @@ export default function RecipeDetails() {
     const [recipe, setRecipe] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
+    const recipeService = useService(recipeServiceFactory)
+
+    // getRecipe
+
     useEffect(() => {
         setIsLoading(true);
-        recipeService.getRecipeById(recipeId)
-            .then(recipe => {
-                setRecipe(recipe);
-                setIsLoading(false);
-            });
+        // TODO length check
+        if (recipeId.length < 10) {
+            recipeServiceAPI.getRecipeByIdAPI(recipeId)
+                .then(recipe => {
+                    setRecipe(recipe);
+                    setIsLoading(false);
+                });
+        } else {
+            recipeService.getOne(recipeId)
+                .then(recipe => {
+                    setRecipe(recipe);
+                    setIsLoading(false);
+                });
+        }
     }, [recipeId])
 
     return (
@@ -32,7 +49,8 @@ export default function RecipeDetails() {
                 <article className={styles["container"]}>
                     <header className={styles["header-container"]}>
                         <div className={styles["header-img"]}>
-                            <img src={recipe.image} alt={recipe.title} />
+                            <img src={recipe.image || recipe.imgUrl} alt={recipe.title} />
+                            <Link to={`/recipes/${recipe._id}/edit`} className="button">Edit</Link>
                         </div>
                         <div className={styles["recipe-info"]}>
                             <h2>{recipe.title}</h2>
@@ -74,15 +92,24 @@ export default function RecipeDetails() {
                         </div>
 
                     </header>
-
+                    {recipe?._id &&
+                        <Link to={`/recipes/${recipe._id}/edit`}>
+                            <ButtonPrimarySm value={'Edit'} />
+                        </Link>}
 
                     <div className={styles["container-prep"]}>
                         <div className={styles["ingredients"]}>
                             <h2>Ingredients</h2>
                             <ul className="list">
                                 {recipe.extendedIngredients ?
-                                    recipe.extendedIngredients.map(i => <IngredientsList key={`${i.id}${i.name}`} {...i} />)
+                                    recipe.extendedIngredients.map(i => <IngredientsListAPI key={`${i.id}${i.name}`} {...i} />)
                                     : ""}
+
+                                {
+                                    recipe.ingredients ?
+                                        recipe.ingredients.map(i => <IngredientsList key={`${i.id}${i.name}`} {...i} />)
+                                        : ""
+                                }
 
                             </ul>
                         </div>

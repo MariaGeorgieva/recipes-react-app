@@ -1,11 +1,10 @@
 import { NavLink } from 'react-router-dom'
-import { useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 import styles from '../Header/Header.module.css';
 import { Logo } from '../Logo/Logo';
 
 export default function Navigation() {
-    const { isAuthenticated, username } = useContext(AuthContext);
+    const { isAuthenticated, username } = useAuthContext();
 
     return (
         <nav className={styles["container-nav"]}>
@@ -13,14 +12,14 @@ export default function Navigation() {
             <ul className={styles["top-links"]}>
                 <li className={styles["top"]}>
                     <NavLink to="/recipes"
-                        className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>
+                        className={styles["top-href"]}>
                         All recipes
                     </NavLink>
                 </li>
 
                 <li className={styles["top"]}>
                     <NavLink to="/categories"
-                        className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>
+                        className={styles["top-href"]}>
                         Categories
                     </NavLink>
                 </li>
@@ -30,18 +29,19 @@ export default function Navigation() {
                 {isAuthenticated ?
                     <>
                         <li className={styles["top"]}>
-                            <NavLink to="/profile" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Hello {username}</NavLink>
+                            <NavLink to="/profile" className={styles["top-href"]}>Hello {username}</NavLink>
                         </li>
                         <li className={styles["top"]}>
-                            <NavLink to="/recipes/create" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Add recipe</NavLink>
+                            <NavLink to="/recipes/create" className={styles["top-href"]}>Add recipe</NavLink>
                         </li>
-                         <li className={styles["top"]}>
-                            <NavLink to="/logout" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Logout</NavLink>
+                        <li className={styles["top"]}>
+                            <NavLink to="/logout" className={styles["top-href"]}>Logout</NavLink>
                         </li>
+                        
                     </> :
                     <>
-                        <li className={styles["top"]}><NavLink to="/login" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Login</NavLink></li>
-                        <li className={styles["top"]}><NavLink to="/register" className={({ isActive }) => isActive ? styles["top-href-active"] : styles["top-href"]}>Register</NavLink></li>
+                        <li className={styles["top"]}><NavLink to="/login" className={styles["top-href"]}>Login</NavLink></li>
+                        <li className={styles["top"]}><NavLink to="/register" className={styles["top-href"]}>Register</NavLink></li>
                     </>
                 }
             </ul>

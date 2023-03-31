@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { FormContext } from '../../context/FormContext';
+import { FormContext } from '../../contexts/FormContext';
 import styles from '../RecipeCreate/RecipeCreate.module.css'
 
 export default function DynamicInputField({
@@ -11,6 +11,7 @@ export default function DynamicInputField({
 }) {
     const formContext = useContext(FormContext);
     const { form } = formContext;
+    
     return (
         <div className={styles["input-container-ing"]}>
             <div className={styles["input-container"]}>

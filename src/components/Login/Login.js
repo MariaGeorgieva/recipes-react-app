@@ -1,40 +1,23 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-
-import { authServiceFactory } from '../../services/authService';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { useForm } from "../../hooks/useForm";
 
 import styles from '../FormProvider/Forms.module.css';
-import imgCard from "../../assets/card1-login.jpg"
 import { Logo } from '../Logo/Logo';
-
+import imgCard from "../../assets/card1-login.jpg"
 import InputField from '../InputField/InputField';
-import FormProvider from '../FormProvider/FormProvider';
-// import { AuthContext } from '../../context/AuthContext';
-import { useAuthContext } from '../../context/AuthContext';
+import { ButtonPrimary } from "../Buttons/Buttons";
 
 
 export default function Login() {
-    const { userLogin } = useAuthContext();
-    const authService = authServiceFactory()
-    const navigate = useNavigate();
+    const { onLoginSubmit } = useAuthContext();
 
-    const initialValuesForm = {
-        username: '',
+    const { values, onChangeHandler, onSubmit } = useForm({
         // email: '',
         password: '',
-    };
-
-    const onSubmitHandler = async (formData) => {
-        try {
-            const user = await authService.login(formData);
-            userLogin(user);
-            navigate("/");
-
-        } catch (error) {
-            console.log("error: " + error);
-        }
-    };
-
+        username:''
+    }, onLoginSubmit);
 
     return (
         <div className={styles["container"]}>
@@ -43,11 +26,38 @@ export default function Login() {
                 <div className={styles["container-form-column"]}>
                     <Logo />
                     <h2 className={styles["title"]}>Login</h2>
-                    <FormProvider submit={onSubmitHandler} initialValues={initialValuesForm} id={"login"} method="POST" >
-                        <InputField label="Username" name="username" type="text" />
-                        {/* <InputField label="Email" name="email" type="text" /> */}
-                        <InputField label="Password" name="password" type="password" />
-                    </FormProvider>
+
+                    <form onSubmit={onSubmit} id="login" method="POST">
+                        <InputField
+                            id="username"
+                            label="username"
+                            name="username"
+                            type="username"
+                            value={values.username}
+                            onChangeHandler={onChangeHandler}
+                        />
+                        {/* <InputField
+                            id="email"
+                            label="email"
+                            name="email"
+                            type="email"
+                            value={values.email}
+                            onChangeHandler={onChangeHandler}
+                        /> */}
+                        <InputField
+                            id="password"
+                            label="Password"
+                            name="password"
+                            type="password"
+                            value={values.password}
+                            onChangeHandler={onChangeHandler}
+                        />
+                        <ButtonPrimary type="submit" value={'Login'} />
+                    </form>
+
+                    <p className={styles["field"]}>
+                        <span>If you don't have an account click <Link to="/register" className={styles["fieldLink"]}>here</Link></span>
+                    </p>
                 </div>
             </div>
         </div>

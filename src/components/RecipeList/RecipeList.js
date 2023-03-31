@@ -1,37 +1,50 @@
 import { useEffect, useState } from 'react';
-import * as recipeService from '../../services/recipeService';
+import * as recipeServiceAPI from '../../services/recipeServiceAPI';
+import { useRecipeContext } from '../../contexts/RecipeContext';
+
 import styles from './RecipeList.module.css'
-import Recipe from '../Recipe/Recipe';
+import RecipeCard from '../RecipeCard/RecipeCard';
 import LoadingSpinner from "../LoadingSpiner/LoadingSpinner";
 
 
-export default function RecipeList() {
-    const [spoonacularApiRecipes, spoonacularTestRecipes] = useState([]);
+export default function RecipeList({
+    catName = 'Dessert',
+}) {
+    const [spoonacularApiRecipes, setSpoonacularApiRecipes] = useState([]);
+    const { recipes } = useRecipeContext()
     const [isLoading, setIsLoading] = useState(false);
-
 
     useEffect(() => {
         setIsLoading(true);
-        recipeService.getRecipeCategory('cake', 8)
+        recipeServiceAPI.getRecipeCategoryAPI(catName, 8)
             .then(spoonacularTest => {
-                spoonacularTestRecipes(spoonacularTest);
+                setSpoonacularApiRecipes(spoonacularTest);
                 setIsLoading(false);
             })
             .catch(err => {
-                console.log("Error" + err);
+                console.log("Error API" + err);
             });
 
-    }, []); //empty array!
+    }, [catName]); //empty array!
 
 
     return (
         <>
-            <h2 className={styles["title-categories"]}>Last <span>Cake</span> recipes</h2>
+            <h2 className={styles["title-categories"]}>Server recipes</h2>
+            <div className={styles["container-articles"]}>
+                {recipes
+                    .map(r =>
+                        <RecipeCard
+                            key={r._id}
+                            {...r}
+                        />)}
+            </div>
+            <h2 className={styles["title-categories"]}>Spoonacular <strong>{catName}</strong> recipes</h2>
             {isLoading ? <LoadingSpinner /> :
                 <div className={styles["container-articles"]}>
                     {spoonacularApiRecipes
                         .map(r =>
-                            <Recipe
+                            <RecipeCard
                                 key={r.id}
                                 {...r}
                             />)}

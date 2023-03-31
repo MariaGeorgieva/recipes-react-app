@@ -1,35 +1,41 @@
-const baseUrl = 'https://api.spoonacular.com/recipes/';
+import { requestFactory } from './requester';
 
-const options = {
-    method: 'GET',
-    headers: {
-        'x-api-key': '9848045d1a3b45afa10342967d43a793',
-    }
-};
+const baseUrl = 'http://localhost:3030/data/recipes';
 
+export const recipeServiceFactory = (token) => {
+    const request = requestFactory(token);
 
-export const getRecipeCategory = async (categoryStr, numberOfRecipes) => {
-    try {
-        // const res = await fetch('https://api.spoonacular.com/recipes/complexSearch?query=donut&number=8', options)
-        const res = await fetch(`${baseUrl}/complexSearch?query=${categoryStr}&number=${numberOfRecipes}`, options)
-        const result = await res.json()
-        return (result.results);
-    } catch (error) {
-        console.error("error: " + error)
-    }
-
-}
-
-export const getRecipeById = async (id) => {
-
-    try {
-        // https://api.spoonacular.com/recipes/{id}/information
-        const res = await fetch(`${baseUrl}${id}/information?includeNutrition=false`, options);
-        const result = await res.json();
-        // console.log(result);
+    const getAll = async () => {
+        const result = await request.get(baseUrl);
+        const recipes = Object.values(result);
+    
+        return recipes;
+    };
+    
+    const getOne = async (recipeId) => {
+        const result = await request.get(`${baseUrl}/${recipeId}`);
+    
         return result;
+    };
+    
+    const create = async (recipeData) => {
+        const result = await request.post(baseUrl, recipeData);
+    
+        console.log(result);
+    
+        return result;
+    };
+    
+    const edit = (recipeId, data) => request.put(`${baseUrl}/${recipeId}`, data);
 
-    } catch (error) {
-        console.error("error: " + error)
-    }
+    const deleteRecipe= (recipeId) => request.delete(`${baseUrl}/${recipeId}`);
+
+
+    return {
+        getAll,
+        getOne,
+        create,
+        edit,
+        delete: deleteRecipe,
+    };
 }

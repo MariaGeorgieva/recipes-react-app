@@ -1,28 +1,29 @@
 // import React, { useState } from 'react';
 import styles from '../InputField/InputField.module.css';
 import { useContext } from 'react';
-import { FormContext } from '../../context/FormContext';
+import { FormContext } from '../../contexts/FormContext';
+import { useForm } from '../../hooks/useForm';
 
 
-export default function InputField(props) {
-  const {
-    label,
-    type = 'text',
-    name,
-  } = props;
+export default function InputField({
+  id,
+  name,
+  value,
+  label,
+  type,
+  onChangeHandler
 
-
-  const formContext = useContext(FormContext);
-  const { form, handleFormChange } = formContext;
+}) {
 
   return (
     <div className={styles["input-container"]}>
       <input
+        id={id}
         type={type}
         name={name}
-        value={form[name]}
-        onChange={handleFormChange}
-      />
+        value={value}
+        onChange={onChangeHandler}      />
+        
       <label className={'filled'} htmlFor={label}>
         {label}
       </label>

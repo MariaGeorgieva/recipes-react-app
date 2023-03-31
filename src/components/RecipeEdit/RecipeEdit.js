@@ -1,17 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useRecipeContext } from '../../contexts/RecipeContext'
+
 import { useForm } from '../../hooks/useForm';
+import { useService } from "../../hooks/useService";
+import { recipeServiceFactory } from '../../services/recipeService';
 
 import FormProvider from '../FormProvider/FormProvider';
 import InputField from '../InputField/InputField';
 import TextAria from '../TextAria/TextAria';
-
-
 import styles from '../RecipeCreate/RecipeCreate.module.css'
 import DynamicInputField from '../RecipeCreate/DynamicInputField';
 
 
-export default function RecipeCreate() {
+export default function RecipeEdit() {
+
     const [inputSteps, setInpuSteps] = useState([{ instruction: '' }]);
     const [inputIngredients, setInputIngredients] = useState([
         {
@@ -19,9 +22,10 @@ export default function RecipeCreate() {
             ingredient: ''
         }
     ]);
-
-    const { onCreateRecipeSubmit } = useRecipeContext();
-    const { formValues } = useForm({
+    const { onRecipeEditSubmit } = useRecipeContext();
+    const { recipeId } = useParams();
+    const recipeService = useService(recipeServiceFactory)
+    const { formValues, onChangeHandler, changeValues } = useForm({
         title: '',
         image: '',
         summary: '',
@@ -31,13 +35,21 @@ export default function RecipeCreate() {
         servings: 0,
         steps: [],
         extendedIngredients: [],
-    }, onCreateRecipeSubmit);
+    }, onRecipeEditSubmit);
+
+
+    useEffect(() => {
+        recipeService.getOne(recipeId)
+            .then(result => {
+                changeValues(result);
+            });
+    }, [recipeId]);
 
     const onSubmitHandler = async (form) => {
         form.steps = inputSteps;
         form.ingredients = inputIngredients;
         console.log("Form input: ", form);
-        onCreateRecipeSubmit(form);
+        onRecipeEditSubmit(form);
     }
 
     // HANDLE Change Dynamic Input Fields
@@ -89,19 +101,20 @@ export default function RecipeCreate() {
         }
     }
 
+    console.log('formValues', formValues)
+    console.log('changeValues', changeValues)
     return (
         <div className={styles["container"]}>
 
-            {/* <div id={"login"} className={styles["container-form"]}> */}
             <div id={"create-recipe"} className={`${styles['container-form']} ${styles.login}`} >
                 <div className={styles["container-form-column"]}>
 
-                    <h2 className={styles["title"]}>Create a New Recipe</h2>
-                    {/* <form action="/create" method='POST'> */}
+                    <h2 className={styles["title"]}>Edit Recipe</h2>
 
-                    <FormProvider id="create" method="post" btnName={'Add Recipe'}
-                        initialValues={formValues}
+                    <FormProvider id="edit" method="post" btnName={'Edit Recipe'}
+                        // initialValues={initialValues}
                         submit={onSubmitHandler}
+                        onChange={onChangeHandler}
                     >
                         <div className={styles["form"]}>
                             <div>

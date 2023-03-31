@@ -1,14 +1,16 @@
-import { useState } from 'react';
-import { useRecipeContext } from '../../contexts/RecipeContext'
-import { useForm } from '../../hooks/useForm';
-
+import { useState, useEffect, useContext } from 'react';
 import FormProvider from '../FormProvider/FormProvider';
-import InputField from '../InputField/InputField';
-import TextAria from '../TextAria/TextAria';
-
+import { FormContext } from '../../context/FormContext';
 
 import styles from '../RecipeCreate/RecipeCreate.module.css'
+
+import InputField from '../InputField/InputField';
+import TextAria from '../TextAria/TextAria';
 import DynamicInputField from '../RecipeCreate/DynamicInputField';
+import { useForm } from '../../hooks/useForm';
+
+// import AddDynamicInput from '../AddDynamicInput/AddDynamicInput';
+// import DynamicArrayFields from './DynamicArrayFields';
 
 
 export default function RecipeCreate() {
@@ -19,25 +21,28 @@ export default function RecipeCreate() {
             ingredient: ''
         }
     ]);
+    const { changeValues, onChangeHandler, formValues } = useForm();
 
-    const { onCreateRecipeSubmit } = useRecipeContext();
-    const { formValues } = useForm({
+    const initialValues = {
         title: '',
-        image: '',
+        imgUrl: '',
         summary: '',
-        dishTypes: '',
-        preparationMinutes: 0,
-        readyInMinutes: 0,
+        prepTime: 0,
+        cookTime: 0,
         servings: 0,
-        steps: [],
-        extendedIngredients: [],
-    }, onCreateRecipeSubmit);
+        steps: inputSteps,
+        ingredients: inputIngredients,
+        // test:inputSteps
+    };
 
-    const onSubmitHandler = async (form) => {
-        form.steps = inputSteps;
+    const onSubmitHandler = (form) => {
+
+        // form.steps = inputSteps;
         form.ingredients = inputIngredients;
         console.log("Form input: ", form);
-        onCreateRecipeSubmit(form);
+        console.log("Form steps: ", form.steps);
+        console.log("inputSteps steps: ", inputSteps.steps);
+        console.log("Form ingredients: ", form.ingredients);
     }
 
     // HANDLE Change Dynamic Input Fields
@@ -47,6 +52,9 @@ export default function RecipeCreate() {
             let data = [...inputSteps];
             data[index][e.target.name] = e.target.value;
             setInpuSteps(data);
+            // changeValues(formValues.steps, inputSteps)
+            // changeValues(inputSteps)
+            console.log('handleDynamicInputChange', data);
         }
 
         else if (e.target.name === "ingredient") {
@@ -66,7 +74,9 @@ export default function RecipeCreate() {
         e.preventDefault();
         if (e.target.name === "stepsBtn") {
             let newfield = { instruction: '' }
-            setInpuSteps([...inputSteps, newfield])
+            setInpuSteps([...inputSteps, newfield]);
+            changeValues(initialValues.steps, inputSteps)
+            // onChangeHandler( initialValues.steps);
         } else if (e.target.name === "ingredientsBtn") {
             let newfield = { quantity: '', ingredient: '' }
             setInputIngredients([...inputIngredients, newfield])
@@ -82,6 +92,8 @@ export default function RecipeCreate() {
             let data = [...inputSteps];
             data.splice(index, 1);
             setInpuSteps(data);
+            // onChangeHandler( initialValues.steps)
+            // initialValues.steps = inputSteps;
         } else if (e.target.name === 'ingredientRemove') {
             let data = [...inputIngredients];
             data.splice(index, 1);
@@ -97,23 +109,34 @@ export default function RecipeCreate() {
                 <div className={styles["container-form-column"]}>
 
                     <h2 className={styles["title"]}>Create a New Recipe</h2>
-                    {/* <form action="/create" method='POST'> */}
-
-                    <FormProvider id="create" method="post" btnName={'Add Recipe'}
-                        initialValues={formValues}
+                    {/* <form action="/register" method='POST'> */}
+                    <FormProvider
                         submit={onSubmitHandler}
+                        // onChangeHandler={onChangeHandler}
+                        initialValues={initialValues}
+                        btnName={'Create'}
+
                     >
                         <div className={styles["form"]}>
                             <div>
+
+                                {/* <DynamicArrayFields
+                                    name={"test"}
+                                    newfieldName='instruction'
+                                    value={initialValues.test}
+                                    label="instruction"
+                                    // onChange={changeValues}
+                                /> */}
+
+
+
                                 <InputField label="Title*" name="title" type="text" />
-                                <InputField label="Image URL*" name="image" type="text" />
-                                {/* TODO array strings */}
-                                <InputField label="Category*" name="dishTypes" type="text" />
+                                <InputField label="Image URL*" name="imgUrl" type="imgUrl" />
                             </div>
                             <TextAria name="summary" label="Summary" id={'summary'} rows={11} cols={40} />
                             <div>
-                                <InputField label="Preparaion Time* (minutes)" name="preparationMinutes" type={'number'} />
-                                <InputField label="Cook Time* (minutes)" name="readyInMinutes" type={'number'} />
+                                <InputField label="Preparaion Time* (minutes)" name="prepTime" type={'number'} />
+                                <InputField label="Cook Time* (minutes)" name="cookTime" type={'number'} />
                                 <InputField label="Servings*" name="servings" type={'number'} />
                             </div>
 
@@ -128,14 +151,15 @@ export default function RecipeCreate() {
                                                     name='quantity'
                                                     key={`${index}quantity`}
                                                     index={index}
-                                                    handleDynamicInputChange={handleDynamicInputChange}
+                                                // handleDynamicInputChange={handleDynamicInputChange}
+
                                                 />
                                             </div>
                                             <div className={styles["input-container"]}>
                                                 <DynamicInputField
                                                     label='ingredient'
                                                     name='ingredient'
-                                                    key={`${index}ingredient`}
+                                                    key={`${index}ingredient{${Math.random()}}`}
                                                     index={index}
                                                     handleDynamicInputChange={handleDynamicInputChange}
                                                 />
@@ -152,7 +176,7 @@ export default function RecipeCreate() {
                             <div className={styles["wrapper"]}>
                                 <h3 className={styles["title-ing"]}>Method*</h3>
                                 <div name="steps">
-                                    {inputSteps.map((input, index) => {
+                                    {initialValues.steps.map((input, index) => {
                                         return (
                                             <div key={`${index}Instruction`} className={styles["input-container-ing"]}>
                                                 <p className={styles["steps"]}>{`Step ${index + 1}`}</p>
