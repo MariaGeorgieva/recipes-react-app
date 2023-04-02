@@ -123,16 +123,12 @@ export default function RecipeDetails() {
 
                     </header>
                     {(recipe?._id && isOwner) &&
-                        <>
-                            {/* TODO owner */}
+                        <div className={styles["section-btns"]} >
                             <Link to={`/recipes/${recipe._id}/edit`}>
                                 <ButtonPrimarySm value={'Edit'} />
                             </Link>
-                            <button className="button" onClick={onDeleteClick}>Delete</button>
-
-                            {/* TODO <ButtonPrimarySm type={'button'} value={'Delete Recipe'} onClick={onDeleteClick} /> */}
-
-                        </>
+                            <button className={styles["btn-delete"]} onClick={onDeleteClick}>DELETE</button>
+                        </div>
                     }
 
                     <div className={styles["container-prep"]}>

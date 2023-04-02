@@ -86,15 +86,44 @@
 .container-prep {
     margin: 20px auto;
     display: flex;
-    /* flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start; */
     gap: 20px;
 }
 
-.ingredients{
+.ingredients {
     width: 30%;
 }
+
 .instructions {
     width: 60%;
+}
+
+.section-btns {
+    position: absolute;
+    margin-top: 20px;
+    top: 95px;
+    left: 80px;
+
+}
+
+/* DELETE Actions */
+.btn-delete {
+    all: unset;
+    margin: 0 10px;
+    background-color: var(--red-primary);
+    color: #fff;
+    /* padding: 8px 16px; */
+    padding: 0.3rem 2rem;
+    border: 1px solid var(--red-primary);
+    border-radius: 100px;
+    transition: .5s ease-in-out;
+    text-transform: uppercase;
+    font-size: 12px;
+    text-align: center;
+}
+
+.btn-delete:hover {
+    background-color: transparent;
+    color: var(--red-primary);
+    border-color: var(--red-primary);
+
 }

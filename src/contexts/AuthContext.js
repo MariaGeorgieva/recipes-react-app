@@ -19,7 +19,7 @@ export default function AuthProvider({ children }) {
             const result = await authService.login(data);
 
             setAuth(result);
-
+            console.log(result);
             navigate('/');
         } catch (error) {
             console.log('There is a problem');

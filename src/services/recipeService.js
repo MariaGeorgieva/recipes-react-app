@@ -9,7 +9,7 @@ export const recipeServiceFactory = (token) => {
         const result = await request.get(baseUrl);
 
         const recipes = Object.values(result);
-   
+
         return recipes;
     };
 
@@ -30,6 +30,15 @@ export const recipeServiceFactory = (token) => {
 
     const deleteRecipe = (recipeId) => request.delete(`${baseUrl}/${recipeId}`);
 
+    const getAllUserRecipes = async (userId) => {
+
+        // TODO not very good solution
+        const result = await request.get(`${baseUrl}/?count}`); //all recipes
+
+        const resultRecipes = result.filter(recipe => recipe._ownerId === userId);
+
+        return resultRecipes;
+    };
 
     return {
         getAll,
@@ -37,5 +46,6 @@ export const recipeServiceFactory = (token) => {
         create,
         edit,
         delete: deleteRecipe,
+        getAllUserRecipes
     };
 }

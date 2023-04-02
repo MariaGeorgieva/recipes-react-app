@@ -135,16 +135,7 @@ export default function RecipeCreate() {
                     <form onSubmit={onSubmitHandler} id="create" method="post"  >
                         <div className={styles["form"]}>
                             <div>
-                                <div>
-                                    <Select
-                                        name="dishTypes"
-                                        label="Category"
-                                        options={options}
-                                        value={values.dishTypes}
-                                        onChangeHandler={onChangeHandler}
-                                    />
-
-                                </div>
+                               
                                 <InputField label="Title*" name="title" type="text"
                                     value={values.title}
                                     onChangeHandler={onChangeHandler}
@@ -153,6 +144,13 @@ export default function RecipeCreate() {
                                     value={values.image}
                                     onChangeHandler={onChangeHandler}
                                 />
+                                    <Select
+                                        name="dishTypes"
+                                        label="Category"
+                                        options={options}
+                                        value={values.dishTypes}
+                                        onChangeHandler={onChangeHandler}
+                                    />
 
                             </div>
                             <TextAria name="summary" label="Summary" id={'summary'} rows={11} cols={40}
