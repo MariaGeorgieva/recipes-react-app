@@ -17,24 +17,27 @@ export const RecipeProvider = ({
             .then(result => {
                 setRecipes(result)
             }).catch(err => {
-                console.log("Error Server" + err);
+                console.log("Error Server: " + err.message);
             });
     }, []);
 
     const onCreateRecipeSubmit = async (data) => {
+
         const newRecipe = await recipeService.create(data);
 
         setRecipes(state => [...state, newRecipe]);
 
-        navigate('/recipes');
+        navigate(`/recipes/${newRecipe._id}`);
     };
 
     const onRecipeEditSubmit = async (values) => {
-        const result = await recipeService.edit(values._id, values);
 
+        const result = await recipeService.edit(values._id, values);
         setRecipes(state => state.map(x => x._id === values._id ? result : x))
 
         navigate(`/recipes/${values._id}`);
+
+
     };
 
     const deleteRecipe = (recipeId) => {

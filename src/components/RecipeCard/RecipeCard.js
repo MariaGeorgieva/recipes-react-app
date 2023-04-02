@@ -7,7 +7,7 @@ import { ButtonPrimarySm } from '../Buttons/Buttons';
 
 export default function RecipeCard({
     _id, //server
-    id, ////API
+    id, //API
     image,
     title,
 

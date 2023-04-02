@@ -1,24 +1,22 @@
-import { useContext } from 'react';
-import { FormContext } from '../../contexts/FormContext';
 import styles from '../RecipeCreate/RecipeCreate.module.css'
 
 export default function DynamicInputField({
     label,
     index,
     name,
-    type = 'text',
-    handleDynamicInputChange
+    type,
+    handleDynamicInputChange,
+    value
 }) {
-    const formContext = useContext(FormContext);
-    const { form } = formContext;
+
     
     return (
         <div className={styles["input-container-ing"]}>
             <div className={styles["input-container"]}>
                 <input
-                    type={ type}
+                    type={type}
                     name={name}
-                    value={form[name]}
+                    value={value}
                     onChange={event => handleDynamicInputChange(index, event)}
 
                 />

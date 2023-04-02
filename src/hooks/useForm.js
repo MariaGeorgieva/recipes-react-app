@@ -4,7 +4,9 @@ export const useForm = (initialValues, onSubmitHandler) => {
     const [values, setValues] = useState(initialValues);
 
     const onChangeHandler = (e) => {
+        console.log("UseForm onChangeHandler: ", e.target.value);
         setValues(state => ({ ...state, [e.target.name]: e.target.value }));
+        console.log("UseForm onChangeHandler values: ", values);
 
     }
 
@@ -18,7 +20,6 @@ export const useForm = (initialValues, onSubmitHandler) => {
 
     const changeValues = (newValues) => {
         // TODO: Validate newValues shape (like initialValues)
-
         setValues(newValues);
     };
 

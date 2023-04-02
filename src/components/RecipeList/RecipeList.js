@@ -32,7 +32,7 @@ export default function RecipeList({
         <>
             <h2 className={styles["title-categories"]}>Server recipes</h2>
             <div className={styles["container-articles"]}>
-                {recipes
+                {recipes && recipes
                     .map(r =>
                         <RecipeCard
                             key={r._id}

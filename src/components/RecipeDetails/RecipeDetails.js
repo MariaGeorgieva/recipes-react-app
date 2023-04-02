@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import * as recipeServiceAPI from '../../services/recipeServiceAPI'
 
@@ -7,6 +7,7 @@ import { useService } from '../../hooks/useService';
 import styles from '../RecipeDetails/RecipeDetails.module.css'
 
 import IngredientsList from "../IngredientsList/IngredientsList";
+import StepList from '../StepsList/StepsList';
 import IngredientsListAPI from "../IngredientsList/IngredientsListAPI";
 import LoadingSpinner from "../LoadingSpiner/LoadingSpinner";
 import { ButtonPrimarySm } from '../Buttons/Buttons';
@@ -15,13 +16,19 @@ import meal from '../../assets/meal.svg'
 import prep from '../../assets/prep.svg'
 import time from '../../assets/time.svg'
 import servings from '../../assets/servings.svg'
+import { useRecipeContext } from '../../contexts/RecipeContext';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 export default function RecipeDetails() {
     const { recipeId } = useParams();
+    const { userId, isAuthenticated } = useAuthContext();
     const [recipe, setRecipe] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const { deleteRecipe } = useRecipeContext();
+    const recipeService = useService(recipeServiceFactory);
 
-    const recipeService = useService(recipeServiceFactory)
+    const navigate = useNavigate();
+
 
     // getRecipe
 
@@ -43,6 +50,23 @@ export default function RecipeDetails() {
         }
     }, [recipeId])
 
+
+    const isOwner = recipe._ownerId === userId;
+
+    const onDeleteClick = async () => {
+        // eslint-disable-next-line no-restricted-globals
+        const result = confirm(`Are you sure you want to delete ${recipe.title}`);
+
+        if (result) {
+            await recipeService.delete(recipe._id);
+
+            deleteRecipe(recipe._id);
+
+            navigate('/recipes');
+        }
+    };
+
+
     return (
         <>
             {isLoading ? <LoadingSpinner /> :
@@ -59,7 +83,13 @@ export default function RecipeDetails() {
                                     <img src={meal} alt="Course" />
                                     <div className={styles["recipe-icons-text"]}>
                                         <span>Course</span>
-                                        <strong> {recipe.dishTypes}</strong>
+                                        {recipe?.id &&
+                                            <strong> {recipe.dishTypes}</strong>
+                                        }
+
+                                        {recipe?._id &&
+                                            <strong> {recipe.dishTypes}</strong>
+                                        }
                                     </div>
                                 </div>
 
@@ -92,41 +122,59 @@ export default function RecipeDetails() {
                         </div>
 
                     </header>
-                    {recipe?._id &&
-                        <Link to={`/recipes/${recipe._id}/edit`}>
-                            <ButtonPrimarySm value={'Edit'} />
-                        </Link>}
+                    {(recipe?._id && isOwner) &&
+                        <>
+                            {/* TODO owner */}
+                            <Link to={`/recipes/${recipe._id}/edit`}>
+                                <ButtonPrimarySm value={'Edit'} />
+                            </Link>
+                            <button className="button" onClick={onDeleteClick}>Delete</button>
+
+                            {/* TODO <ButtonPrimarySm type={'button'} value={'Delete Recipe'} onClick={onDeleteClick} /> */}
+
+                        </>
+                    }
 
                     <div className={styles["container-prep"]}>
                         <div className={styles["ingredients"]}>
                             <h2>Ingredients</h2>
                             <ul className="list">
-                                {recipe.extendedIngredients ?
+                                {recipe.id && recipe.extendedIngredients ?
                                     recipe.extendedIngredients.map(i => <IngredientsListAPI key={`${i.id}${i.name}`} {...i} />)
-                                    : ""}
+                                    : ""
+                                }
 
-                                {
-                                    recipe.ingredients ?
-                                        recipe.ingredients.map(i => <IngredientsList key={`${i.id}${i.name}`} {...i} />)
-                                        : ""
+                                {recipe._id &&
+                                    recipe.extendedIngredients ?
+                                    recipe.extendedIngredients.map((i) => <IngredientsList key={`${i.ingredients}${Math.random()}`} {...i} />)
+                                    : ""
                                 }
 
                             </ul>
                         </div>
                         <div className={styles["instructions"]}>
                             <h2>Instructions</h2>
-                            <div>{recipe.instructions
-                                // ? recipe.instructions.split('\r+\n').join('\n')
-                                ? recipe.instructions
-                                : ""}</div>
+                            <div>
+                                {recipe.id && recipe.instructions
+                                    //TODO ? recipe.instructions.split('\r+\n').join('\n')
+                                    ? recipe.instructions
+                                    : ""
+                                }
+                                {recipe._id && recipe.steps ?
+                                    recipe.steps.map(s => <StepList key={`${s.instruction}${Math.random()}`} {...s} />)
+                                    : ""
+                                }
+                            </div>
                         </div>
                     </div>
                     <footer>
-                        <p>Source:
-                            <a href={recipe.sourceUrl} target="_blank" rel="noreferrer" >{recipe.sourceName}</a></p>
+                        {recipe.id &&
+                            <p>Source:
+                                <a href={recipe.sourceUrl} target="_blank" rel="noreferrer" >{recipe.sourceName}</a></p>
+                        }
                     </footer>
 
-
+                    {/* TODO {isAuthenticated && <AddComment onCommentSubmit={onCommentSubmit} />} */}
                 </article>
             }
         </>

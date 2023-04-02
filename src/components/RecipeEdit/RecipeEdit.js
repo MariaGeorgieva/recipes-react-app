@@ -6,51 +6,76 @@ import { useForm } from '../../hooks/useForm';
 import { useService } from "../../hooks/useService";
 import { recipeServiceFactory } from '../../services/recipeService';
 
-import FormProvider from '../FormProvider/FormProvider';
-import InputField from '../InputField/InputField';
-import TextAria from '../TextAria/TextAria';
 import styles from '../RecipeCreate/RecipeCreate.module.css'
+import InputField from '../InputField/InputField';
+import Select from '../Select/Select';
+import TextAria from '../TextAria/TextAria';
 import DynamicInputField from '../RecipeCreate/DynamicInputField';
+import { ButtonPrimary } from '../Buttons/Buttons';
 
 
 export default function RecipeEdit() {
-
     const [inputSteps, setInpuSteps] = useState([{ instruction: '' }]);
+
     const [inputIngredients, setInputIngredients] = useState([
         {
             quantity: '',
             ingredient: ''
         }
     ]);
+
+    const options = [
+        { label: '', value: '' },
+        { label: 'Cakes', value: 'Cake' },
+        { label: 'Cupcakes', value: 'Cupcakes' },
+        { label: 'Donuts', value: 'Donuts' },
+        { label: 'Macarons', value: 'Macarons' },
+        { label: 'Croissant', value: 'Croissant' },
+        { label: 'Chocolate', value: 'Chocolate' },
+        { label: 'Ice Cream', value: 'Ice Cream' },
+        { label: 'Drinks', value: 'drinks' },
+        { label: 'Desserts', value: 'Valentine' },
+    ];
+
+    const [category, setCategory] = useState(options[0]);
     const { onRecipeEditSubmit } = useRecipeContext();
     const { recipeId } = useParams();
     const recipeService = useService(recipeServiceFactory)
-    const { formValues, onChangeHandler, changeValues } = useForm({
+    const { values, onChangeHandler, changeValues, onSubmit } = useForm({
         title: '',
         image: '',
         summary: '',
-        dishTypes: '',
+        dishTypes: category,
         preparationMinutes: 0,
         readyInMinutes: 0,
         servings: 0,
-        steps: [],
-        extendedIngredients: [],
+        steps: inputSteps,
+        extendedIngredients: inputIngredients,
     }, onRecipeEditSubmit);
-
 
     useEffect(() => {
         recipeService.getOne(recipeId)
             .then(result => {
                 changeValues(result);
+                setInpuSteps(result.steps);
+                setInputIngredients(result.extendedIngredients);
+                setCategory(result.dishTypes);
+                console.log('result.dishTypes',result.dishTypes);
             });
     }, [recipeId]);
 
-    const onSubmitHandler = async (form) => {
-        form.steps = inputSteps;
-        form.ingredients = inputIngredients;
-        console.log("Form input: ", form);
-        onRecipeEditSubmit(form);
+
+
+    const onSubmitHandler = async (e) => {
+        e.preventDefault();
+        onSubmit(e);
     }
+
+    // HANDLE Change Select Field
+    const handleChange = (event) => {
+        setCategory(event.target.value);
+    };
+
 
     // HANDLE Change Dynamic Input Fields
     const handleDynamicInputChange = (index, e) => {
@@ -78,10 +103,12 @@ export default function RecipeEdit() {
         e.preventDefault();
         if (e.target.name === "stepsBtn") {
             let newfield = { instruction: '' }
-            setInpuSteps([...inputSteps, newfield])
+            setInpuSteps([...inputSteps, newfield]);
+            values.steps.push(newfield);
         } else if (e.target.name === "ingredientsBtn") {
             let newfield = { quantity: '', ingredient: '' }
             setInputIngredients([...inputIngredients, newfield])
+            values.extendedIngredients.push(newfield);
         }
 
     }
@@ -94,15 +121,15 @@ export default function RecipeEdit() {
             let data = [...inputSteps];
             data.splice(index, 1);
             setInpuSteps(data);
+            values.steps.splice(index, 1)
         } else if (e.target.name === 'ingredientRemove') {
             let data = [...inputIngredients];
             data.splice(index, 1);
             setInputIngredients(data);
+            values.extendedIngredients.splice(index, 1)
         }
     }
 
-    console.log('formValues', formValues)
-    console.log('changeValues', changeValues)
     return (
         <div className={styles["container"]}>
 
@@ -111,23 +138,38 @@ export default function RecipeEdit() {
 
                     <h2 className={styles["title"]}>Edit Recipe</h2>
 
-                    <FormProvider id="edit" method="post" btnName={'Edit Recipe'}
-                        // initialValues={initialValues}
-                        submit={onSubmitHandler}
-                        onChange={onChangeHandler}
-                    >
+                    <form onSubmit={onSubmitHandler} id="create" method="PUT"  >
                         <div className={styles["form"]}>
                             <div>
-                                <InputField label="Title*" name="title" type="text" />
-                                <InputField label="Image URL*" name="image" type="text" />
-                                {/* TODO array strings */}
-                                <InputField label="Category*" name="dishTypes" type="text" />
+                                <InputField label="Title*" name="title" type="text"
+                                    value={values.title}
+                                    onChangeHandler={onChangeHandler} />
+                                <InputField label="Image URL*" name="image" type="text"
+                                    value={values.image}
+                                    onChangeHandler={onChangeHandler} />
+                                <div>
+                                <Select
+                                        name="dishTypes"
+                                        label="Category"
+                                        options={options}
+                                        value={values.dishTypes}
+                                        onChangeHandler={onChangeHandler}
+                                    />
+                                </div>
                             </div>
-                            <TextAria name="summary" label="Summary" id={'summary'} rows={11} cols={40} />
+                            <TextAria name="summary" label="Summary" id={'summary'} rows={11} cols={40}
+                                value={values.summary}
+                                onChangeHandler={onChangeHandler} />
                             <div>
-                                <InputField label="Preparaion Time* (minutes)" name="preparationMinutes" type={'number'} />
-                                <InputField label="Cook Time* (minutes)" name="readyInMinutes" type={'number'} />
-                                <InputField label="Servings*" name="servings" type={'number'} />
+                                <InputField label="Preparaion Time* (minutes)" name="preparationMinutes" type={'number'}
+                                    value={values.preparationMinutes}
+                                    onChangeHandler={onChangeHandler} />
+                                <InputField label="Cook Time* (minutes)" name="readyInMinutes" type={'number'}
+                                    value={values.readyInMinutes}
+                                    onChangeHandler={onChangeHandler} />
+                                <InputField label="Servings*" name="servings" type={'number'}
+                                    value={values.servings}
+                                    onChangeHandler={onChangeHandler} />
                             </div>
 
                             <div className={styles["wrapper"]}>
@@ -139,9 +181,11 @@ export default function RecipeEdit() {
                                                 <DynamicInputField className={styles["quantity"]}
                                                     label='qty'
                                                     name='quantity'
+                                                    value={`${input['quantity']}`}
                                                     key={`${index}quantity`}
                                                     index={index}
                                                     handleDynamicInputChange={handleDynamicInputChange}
+                                                    onChangeHandler={onChangeHandler}
                                                 />
                                             </div>
                                             <div className={styles["input-container"]}>
@@ -150,7 +194,9 @@ export default function RecipeEdit() {
                                                     name='ingredient'
                                                     key={`${index}ingredient`}
                                                     index={index}
+                                                    value={`${input['ingredient']}`}
                                                     handleDynamicInputChange={handleDynamicInputChange}
+                                                    onChangeHandler={onChangeHandler}
                                                 />
                                             </div>
                                             <button className={styles['btn-remove']} onClick={(e) => removeDynamicInputFields(index, e)} name="ingredientRemove">Remove</button>
@@ -166,6 +212,7 @@ export default function RecipeEdit() {
                                 <h3 className={styles["title-ing"]}>Method*</h3>
                                 <div name="steps">
                                     {inputSteps.map((input, index) => {
+
                                         return (
                                             <div key={`${index}Instruction`} className={styles["input-container-ing"]}>
                                                 <p className={styles["steps"]}>{`Step ${index + 1}`}</p>
@@ -174,7 +221,9 @@ export default function RecipeEdit() {
                                                     name='instruction'
                                                     key={`${index}instruction`}
                                                     index={index}
+                                                    value={`${input['instruction']}`}
                                                     handleDynamicInputChange={handleDynamicInputChange}
+                                                    onChangeHandler={onChangeHandler}
                                                 />
                                                 <button className={styles['btn-remove']} onClick={(e) => removeDynamicInputFields(index, e)} name="stepsRemove">remove</button>
                                             </div>
@@ -185,7 +234,10 @@ export default function RecipeEdit() {
                                 <button className={styles['btn-add']} onClick={addDynamicInputField} name="stepsBtn"> + Add Step</button>
                             </div>
                         </div>
-                    </FormProvider>
+                        <ButtonPrimary type="submit" value={'Edit Recipe'} />
+                        <ButtonPrimary type="text" value={'Cancel'} />
+
+                    </form>
                 </div>
             </div >
         </div >

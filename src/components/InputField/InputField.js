@@ -1,9 +1,4 @@
-// import React, { useState } from 'react';
 import styles from '../InputField/InputField.module.css';
-import { useContext } from 'react';
-import { FormContext } from '../../contexts/FormContext';
-import { useForm } from '../../hooks/useForm';
-
 
 export default function InputField({
   id,
@@ -22,8 +17,9 @@ export default function InputField({
         type={type}
         name={name}
         value={value}
-        onChange={onChangeHandler}      />
-        
+        onChange={onChangeHandler}
+      />
+
       <label className={'filled'} htmlFor={label}>
         {label}
       </label>
