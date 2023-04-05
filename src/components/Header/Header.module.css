@@ -77,6 +77,13 @@
     color: var(--red-primary);
     font-weight: bold;
 }
+.top-href-span {
+    font-family: 'Cookie', sans-serif;
+    font-size: 28px;
+    font-weight: lighter;
+    text-decoration: underline;
+    text-decoration-color: var(--green-mint);
+}
 
 .top-href-active {
    

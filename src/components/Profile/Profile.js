@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useRecipeContext } from '../../contexts/RecipeContext';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { recipeServiceFactory } from '../../services/recipeService';
 
 import styles from '../Profile/Profile.module.css';
 import chef from "../../assets/chefHat.svg"
 import { ButtonPrimary, ButtonPrimarySm } from '../Buttons/Buttons'
-import LoadingSpinner from "../LoadingSpiner/LoadingSpinner";
 import UserRecipeCard from './ProfileData/UserRecipeCard';
+import { useEffect, useState } from 'react';
+import { recipeServiceFactory } from '../../services/recipeService';
+
 
 export default function Profile() {
     const { username, userEmail, userId } = useAuthContext();
-    const [userRecipes, setUserRecipes] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
     const recipeService = recipeServiceFactory();
-
+    const [userRecipes, setUserRecipes] = useState([]);
+    // const { recipes } = useRecipeContext();
+    // const resultRecipes = recipes.filter(recipe => recipe._ownerId === userId);
 
     const onEditHandler = (userId) => {
 
@@ -26,17 +27,14 @@ export default function Profile() {
     }
 
     useEffect(() => {
-        setIsLoading(true);
         recipeService.getAllUserRecipes(userId)
             .then(result => {
-                setUserRecipes(result)
-                setIsLoading(false);
-            }).catch(err => {
-                console.log("Error User recipes: " + err.message);
-            });
-    }, []);
+                console.log('userRecipes:', result);
+                setUserRecipes(result);
+            })
 
-    console.log("userRecipes", userRecipes.length, userRecipes);
+    }, [])
+
     return (
         <>
             <div className={styles["container"]} >
@@ -58,26 +56,26 @@ export default function Profile() {
                     </div>
                     <div className={styles["container-form-column"]}>
                         <h2 className={styles["title"]}>Listed Recipes</h2>
-                        {isLoading ? <LoadingSpinner /> :
-                            <div className={styles["container-form-column-recipes"]}>
-                                {userRecipes.length > 0 ? userRecipes
-                                    .map(r =>
-                                        <UserRecipeCard
-                                            key={r._id}
-                                            {...r}
-                                        />)
-                                    :
-                                    <>
-                                        <p>You don't have any recipes</p>
-                                        <Link to="/recipes/create" className={styles["top-href"]}>
-                                            <ButtonPrimary value={'Add recipe'} />
-                                        </Link>
 
-                                    </>
+                        <div className={styles["container-form-column-recipes"]}>
+                            {userRecipes.length > 0 ? userRecipes
+                                .map(r =>
+                                    <UserRecipeCard
+                                        key={r._id}
+                                        {...r}
+                                    />)
+                                :
+                                <>
+                                    <p>You don't have any recipes</p>
+                                    <Link to="/recipes/create" className={styles["top-href"]}>
+                                        <ButtonPrimary value={'Add recipe'} />
+                                    </Link>
 
-                                }
-                            </div>
-                        }
+                                </>
+
+                            }
+                        </div>
+
                     </div>
 
                 </div>

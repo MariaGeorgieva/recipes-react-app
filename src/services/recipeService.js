@@ -19,6 +19,8 @@ export const recipeServiceFactory = (token) => {
     };
 
     const create = async (recipeData) => {
+        console.log("recipeData", recipeData);
+
         const result = await request.post(baseUrl, recipeData);
         return result;
     };
@@ -31,14 +33,12 @@ export const recipeServiceFactory = (token) => {
     const deleteRecipe = (recipeId) => request.delete(`${baseUrl}/${recipeId}`);
 
     const getAllUserRecipes = async (userId) => {
-
-        // TODO not very good solution
         const result = await request.get(`${baseUrl}/?count}`); //all recipes
-
         const resultRecipes = result.filter(recipe => recipe._ownerId === userId);
-
         return resultRecipes;
     };
+
+   
 
     return {
         getAll,
@@ -46,6 +46,6 @@ export const recipeServiceFactory = (token) => {
         create,
         edit,
         delete: deleteRecipe,
-        getAllUserRecipes
+        getAllUserRecipes,
     };
 }

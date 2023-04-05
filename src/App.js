@@ -19,6 +19,7 @@ import { RecipeProvider } from './contexts/RecipeContext';
 import RecipeEdit from './components/RecipeEdit/RecipeEdit';
 import { RouteGuard } from './components/common/RouteGuard';
 import { RecipeOwner } from './components/common/RecipeOwner';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 
 
 function App() {
@@ -28,15 +29,15 @@ function App() {
       <AuthProvider>
         <RecipeProvider>
           <Navigation />
-
+<ErrorBoundary>
           <Routes>
             <Route path='/' element={<Homepage />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
 
-
             <Route path='/recipes' element={<RecipeList />} />
             <Route path='/recipes/:recipeId/' element={<RecipeDetails />} />
+
             <Route element={<RouteGuard />}>
               <Route path='/recipes/:recipeId/edit' element={
                 <RecipeOwner>
@@ -47,15 +48,14 @@ function App() {
               <Route path='/logout' element={<Logout />} />
               <Route path='/profile' element={<Profile />} />
             </Route>
-            {/* <Route path='/recipes/:recipeId/edit' element={<RecipeEdit />} /> */}
-
 
             <Route path='/categories/' element={<Categories />} />
             <Route path='/categories/:catName' element={<CategoryList />} />
           </Routes>
-        </RecipeProvider>
-        <Footer />
+          </ErrorBoundary>
+          <Footer />
 
+        </RecipeProvider>
       </AuthProvider>
     </div>
   );

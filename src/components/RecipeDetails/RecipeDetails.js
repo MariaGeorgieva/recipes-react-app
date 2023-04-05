@@ -50,12 +50,14 @@ export default function RecipeDetails() {
         }
     }, [recipeId])
 
-
+console.log("recipe details",recipe);
     const isOwner = recipe._ownerId === userId;
 
     const onDeleteClick = async () => {
         // eslint-disable-next-line no-restricted-globals
         const result = confirm(`Are you sure you want to delete ${recipe.title}`);
+         // TODO delete modal
+        //  showDeleteRecipeModal(true);
 
         if (result) {
             await recipeService.delete(recipe._id);

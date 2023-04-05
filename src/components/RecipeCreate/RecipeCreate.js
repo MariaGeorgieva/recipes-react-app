@@ -33,10 +33,6 @@ export default function RecipeCreate() {
         { label: 'Desserts', value: 'Valentine' },
     ];
 
-
-
-    // const [category, setCategory] = useState(options[0].value);
-
     const { onCreateRecipeSubmit } = useRecipeContext();
     const { values, onChangeHandler, onSubmit, changeValues } = useForm({
         title: '',
@@ -48,6 +44,7 @@ export default function RecipeCreate() {
         dishTypes: options[0].value,
         steps: inputSteps,
         extendedIngredients: inputIngredients,
+        // likes: []
     }, onCreateRecipeSubmit);
 
     const onSubmitHandler = (e) => {
@@ -56,20 +53,6 @@ export default function RecipeCreate() {
 
         onSubmit(e);
     }
-
-    // // HANDLE Change Select Field
-    // const handleChange = (event) => {
-    //     console.log('**********************');
-    //     console.log('before handle:', category);
-    //     // console.log('Label 👉️', event.target.selectedOptions[0].label);
-    //     console.log('target 👉️', event.target.value);
-    //     console.log("currentTarget", event.currentTarget.value)
-    //     const currentSelect = event.currentTarget.value
-    //     setCategory(currentSelect);
-    //     console.log('values.dishTypes ', values.dishTypes  );
-    //     console.log('after handle:', category);
-    //     console.log('**********************');
-    // };
 
 
     // HANDLE Change Dynamic Input Fields
@@ -122,10 +105,6 @@ export default function RecipeCreate() {
         }
     }
 
-    // useEffect(() => {
-    //     console.log("values.dishTypes", values.dishTypes)
-    // }, [values.dishTypes])
-
     return (
         <div className={styles["container"]}>
             <div id={"create-recipe"} className={`${styles['container-form']} ${styles.login}`} >
@@ -135,7 +114,7 @@ export default function RecipeCreate() {
                     <form onSubmit={onSubmitHandler} id="create" method="post"  >
                         <div className={styles["form"]}>
                             <div>
-                               
+
                                 <InputField label="Title*" name="title" type="text"
                                     value={values.title}
                                     onChangeHandler={onChangeHandler}
@@ -144,13 +123,13 @@ export default function RecipeCreate() {
                                     value={values.image}
                                     onChangeHandler={onChangeHandler}
                                 />
-                                    <Select
-                                        name="dishTypes"
-                                        label="Category"
-                                        options={options}
-                                        value={values.dishTypes}
-                                        onChangeHandler={onChangeHandler}
-                                    />
+                                <Select
+                                    name="dishTypes"
+                                    label="Category"
+                                    options={options}
+                                    value={values.dishTypes}
+                                    onChangeHandler={onChangeHandler}
+                                />
 
                             </div>
                             <TextAria name="summary" label="Summary" id={'summary'} rows={11} cols={40}

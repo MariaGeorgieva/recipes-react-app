@@ -29,7 +29,7 @@ export default function Navigation() {
                 {isAuthenticated ?
                     <>
                         <li className={styles["top"]}>
-                            <NavLink to="/profile" className={styles["top-href"]}>Hello {username}</NavLink>
+                            <NavLink to="/profile" className={styles["top-href"]}>Hello <span className={styles["top-href-span"]}>{username}</span></NavLink>
                         </li>
                         <li className={styles["top"]}>
                             <NavLink to="/recipes/create" className={styles["top-href"]}>Add recipe</NavLink>
@@ -45,29 +45,6 @@ export default function Navigation() {
                     </>
                 }
             </ul>
-
-            {/* TODO Hidden logged in user */}
-            {/* Drop Down */}
-
-            {/* <ul className={styles["profile-links"]}>
-                <li className={styles["profile"]}> */}
-
-            {/* <a className={styles["profile-href"]} href="/">Profile</a> */}
-            {/* </li>
-                <li className={styles["profile"]}>
-                    <a className={styles["profile-href"]} href="/">My Recipes</a>
-                </li>
-                <li className={styles["profile"]}>
-                    <a className={styles["profile-href"]} href="/">Add Recipe</a>
-                </li>
-                <li className={styles["profile"]}>
-                    <a className={styles["profile-href"]} href="/">Favourite Recipes</a>
-                </li>
-                <li className={styles["profile"]}>
-                    <a className={styles["profile-href"]} href="/">Logout</a>
-                </li> */}
-            {/* </li>
-            </ul> */}
         </nav >
 
     );
