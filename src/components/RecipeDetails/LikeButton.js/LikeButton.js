@@ -1,4 +1,4 @@
-import { useReducer, useState,useEffect } from "react";
+import { useReducer, useState, useEffect } from "react";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { recipeReducer } from "../../../reducers/recipeReducer";
 import * as likeService from '../../../services/likeService'
@@ -9,30 +9,48 @@ import { useAuthContext } from "../../../contexts/AuthContext";
 export default function LikeButton({
     likes,
     recipeId,
-    isUserLike
+    isUserLike,
+    numberLikes
+
 }) {
 
-    console.log("LikeButton likes ", likes);
-    console.log("LikeButton likes?.length ", likes?.length);
-    console.log("LikeButton recipeId", recipeId);
-    console.log("LikeButton isUserLike", isUserLike);
+
 
     const [isLiked, setIsLiked] = useState(isUserLike);
+    const [likesCount, setLikesCount] = useState(likes?.length || 0);
     const { userId } = useAuthContext();
-    const [recipe, dispatch] = useReducer(recipeReducer, {});
+    const [recipe, dispatch] = useReducer(recipeReducer, { recipe: {}, loading: true, error: null, likes: [] });
+
+    // console.log("Recipe state recipe.likes ", recipe.likes.length);
 
     const handleLikeClick = async () => {
         try {
             if (isLiked) {
-                await likeService.unlikeRecipe(recipeId, userId);
-                dispatch({ type: 'UNLIKE_RECIPE', payload: userId });
-            } else {
-                await likeService.likeRecipe(recipeId, userId);
-                dispatch({ type: 'LIKE_RECIPE', payload: { userId, recipeId } });
-            }
-            
-            setIsLiked(!isLiked);
+                const deletedLike = await likeService.unlikeRecipe(recipeId, userId);
+                // console.log('LikeButton deletedLike[1])', deletedLike[1]);
 
+                dispatch({
+                    type: 'UNLIKE_RECIPE',
+                    payload: deletedLike[1],
+                    // isUserLike: false
+                });
+                setLikesCount(likesCount - 1);
+
+            } else {
+
+                const newLike = await likeService.likeRecipe(recipeId, userId);
+
+                // console.log('LikeButton add newLike', newLike);
+                dispatch({
+                    type: 'LIKE_RECIPE',
+                    payload: newLike,
+                    // isUserLike: true
+
+                });
+                setLikesCount(likesCount + 1);
+            }
+
+            setIsLiked(!isLiked);
         } catch (error) {
             console.log('Error liking recipe:', error);
         }
@@ -41,7 +59,8 @@ export default function LikeButton({
     // update like state
     useEffect(() => {
         setIsLiked(isUserLike);
-      }, [isUserLike]);
+        setLikesCount(likes?.length || 0);
+    }, [isUserLike]);
 
     return (
         <>
@@ -55,7 +74,8 @@ export default function LikeButton({
                     :
                     <MdFavoriteBorder size={'30px'} color="#fa004b" />
                 }
-                {likes?.length}
+
+                {likesCount}
             </button>
         </>
     );

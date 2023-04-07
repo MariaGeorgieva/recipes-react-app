@@ -5,13 +5,11 @@ const request = requestFactory();
 
 export async function getAllRecipeLikes(recipeId) {
     const searchQuery = encodeURIComponent(`recipeId="${recipeId}"`);
-    const relationQuery = encodeURIComponent(`author=_ownerId:users`);
-    // const result = await request.get(`${baseUrl}?distinct=${recipeId}&count`);//TODO works 
+
     try {
-        const result = await request.get(`${baseUrl}?where=${searchQuery}&load=${relationQuery}`);//TODO works 
-        const likes = Object.values(result);
-        // console.log("getAllRecipeLikes likes: ", likes);
+        const likes = await request.get(`${baseUrl}?where=${searchQuery}`);//TODO works 
         return likes;
+
     } catch (error) {
         console.error(`Error fetching likes for recipe ${recipeId}: ${error.message}`);
         return [];
@@ -20,35 +18,47 @@ export async function getAllRecipeLikes(recipeId) {
 }
 
 export async function getLike(likeId) {
-    const result = await request.get(`${baseUrl}/${likeId}`);
-    return result
+    try {
+        const result = await request.get(`${baseUrl}/${likeId}`);
+        console.log('getLike', result);
+        return result
+    } catch (error) {
+        console.error(`Error fetching like data ${likeId}: ${error.message}`);
+    }
+}
 
- }
+export async function getLikeByUser(userId) {
+    const searchQuery = encodeURIComponent(`userId="${userId}"`);
+    const relationQuery = encodeURIComponent(`recipe=recipeId:recipes`);
+
+    const result = await request.get(`${baseUrl}?where=${searchQuery}&load=${relationQuery}`);//TODO works 
+
+    console.log('getLikeByUser likes', result);
+    return result;
+}
 
 export async function getLikeByRecipeAndUser(recipeId, userId) {
     const likes = await getAllRecipeLikes(recipeId);
 
     if (likes?.length > 0) {
-        const like = likes.some((like) => like.userId === userId);
-        
-        return like;
+        const isUserLike = likes.some((like) => like.userId === userId);
+        const like = likes && likes?.find((like) => like.userId === userId);
+
+        return [isUserLike, like];
     } else {
         return false;
     }
 }
 
 async function insertLike(newLike) {
-    const result = await request.post(baseUrl, newLike);
-    console.log('Response from server:', result);
-    return result;
-}
+    try {
+        const result = await request.post(baseUrl, newLike);
+        // console.log('insertLike:', result);
+        return result;
+    } catch (error) {
+        console.error(`Error insertLike ${newLike}: ${error.message}`);
+    }
 
-async function updateLike(updatedLike) {
-
-    const result = await request.put(`${baseUrl}/${updatedLike._id}`, updatedLike);
-    console.log('Response from server:', result);
-
-    return result;
 }
 
 export const likeRecipe = async (recipeId, userId) => {
@@ -61,7 +71,9 @@ export const likeRecipe = async (recipeId, userId) => {
         }
 
         // Check if user has already liked the recipe
-        const existingLike = await getLikeByRecipeAndUser(recipeId, userId);
+        const responce = await getLikeByRecipeAndUser(recipeId, userId);
+        const existingLike = responce[0];
+        // console.log('lelikeRecipe responce existingLike ', responce[0]);
         // toDO state recipe -> 
         if (existingLike) {
             throw new Error('User has already liked this recipe');
@@ -72,7 +84,7 @@ export const likeRecipe = async (recipeId, userId) => {
             _ownerId: userId,
             recipeId,
             userId,
-            likes: 1,
+            // likes: 1,
             _createdOn: Date.now(),
         };
 
@@ -80,7 +92,8 @@ export const likeRecipe = async (recipeId, userId) => {
 
         // console.log("insertLike(newLike) result ", Object.values(result));
         console.log("insertLike(newLike) result ", result);
-        return Object.values(result);
+        // return Object.values(result);
+        return result;
 
     } catch (error) {
         throw new Error(`Error liking recipe: ${error.message}`);
@@ -91,121 +104,20 @@ export const unlikeRecipe = async (recipeId, userId) => {
     try {
         // Get the existing like for the recipe and user 
         const existingLike = await getLikeByRecipeAndUser(recipeId, userId);
+        // const existingLike = result[1]?._id; //just like id to delete
 
-        console.log("existingLike", existingLike);
+        // console.log("unlikeRecipe _id", existingLike);
+
         if (!existingLike) {
             throw new Error('User has not liked this recipe');
         }
 
-        // Update the like by decrementing the likes by 1
-        const updatedLike = {
-            ...existingLike,
-            likes: existingLike.likes - 1,
-        };
+        console.log('existingLike',existingLike);
+        const resultDelete = await request.delete(`${baseUrl}/${existingLike[1]._id}`);
+        console.log("resultDelete", resultDelete);
+        return existingLike;
 
-        if (updatedLike.likes === 0) {
-            // Remove the like if it has no likes left
-            const result = await request.delete(`${baseUrl}/${existingLike._id}`);
-            return result;
-        } else {
-            // Update the like with the new like count
-            console.log('Update the like with the new like count', updatedLike);
-            const result = await updateLike(updatedLike);
-            return result;
-        }
     } catch (error) {
         throw new Error(`Error unliking recipe: ${error.message}`);
     }
 };
-
-// export const getAllLikes = async (recipeId) => {
-//     const searchQuery = encodeURIComponent(`recipeId="${recipeId}"`);
-//     const relationQuery = encodeURIComponent(`author=_ownerId:users`);
-//     try {
-//         const result = await request.get(`${baseUrl}?where=${searchQuery}&load=${relationQuery}`);
-//         const likes = Object.values(result);
-
-//         return likes;
-//     } catch (error) {
-//         console.log('Error result getAllLikes', error)
-//     }
-
-// };
-// export async function getLikeByRecipeAndUser(recipeId, userId) {
-//     const likes = await getAllLikes(recipeId);
-//     if (likes.length > 0) {
-//         const like = likes.find((like) => like.userId === userId);
-//         return like;
-//     } else {
-//         return null;
-//     }
-// }
-
-// async function insertLike(newLike) {
-//     const result = await request.post(baseUrl, newLike);
-//     return result.data;
-// }
-
-// export const likeRecipe = async (recipeId, userId) => {
-//     try {
-//         const recipe = await getRecipeById(recipeId);
-//         if (!recipe) {
-//             throw new Error('Recipe not found');
-//         }
-
-//         if (recipe._ownerId === userId) {
-//             throw new Error('Owner cannot like their own recipe');
-//         }
-
-//         const existingLike = await getLikeByRecipeAndUser(recipeId, userId);
-//         if (existingLike) {
-//             throw new Error('User has already liked this recipe');
-//         }
-
-//         const newLike = { recipeId, userId, likes: 1 };
-//         const result = await insertLike(newLike);
-//         console.log('likeRecipe response', result);
-//         return result;
-//     } catch (error) {
-//         console.log('Error result likeRecipe', error);
-//         throw new Error(`Error liking recipe: ${error.message}`);
-//     }
-// };
-
-
-// async function getLikeByRecipeAndUser(recipeId, userId) {
-//     const likes = await getAllLikes(recipeId);
-//     if (likes.length > 0) {
-//         const like = likes.find((like) => like.userId === userId);
-//         return like;
-//     } else {
-//         return null;
-//     }
-// }
-
-// export const likeRecipe = async (recipeId, userId) => {
-//     try {
-//         // Check if user has already liked the recipe
-//         const existingLike = await getLikeByRecipeAndUser(recipeId, userId);
-
-//         if (existingLike) {
-//             throw new Error('User has already liked this recipe');
-//         }
-
-//         // Add new like for the recipe and user
-//         const newLike = {
-//             recipeId,
-//             userId,
-//             likes: 1
-//         };
-
-//         const result = await request.post(baseUrl, newLike);
-
-//         return result;
-//     } catch (error) {
-//         console.log('Error liking recipe:', error.message);
-//         throw new Error(`Error liking recipe: ${error.message}`);
-//     }
-// };
-
-

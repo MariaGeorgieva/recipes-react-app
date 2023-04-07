@@ -1,73 +1,51 @@
-// export const recipeReducer = (state, action) => {
-//     console.log('state reducer', state);
-//     switch (action.type) {
-//                case 'RECIPE_FETCH':
-//                 console.log();
-//             return { ...action.payload };
-//         case 'LIKE_RECIPE':
-//             return {
-//                 ...state,
-//                 likes: state.likes + 1,
-//                 isUserLike: true
-//             };
-//         case 'UNLIKE_RECIPE':
-//             return {
-//                 ...state,
-//                 likes: state.likes - 1,
-//                 isUserLike: false
-//             };
-//         default:
-//             return state;
-//     }
+// const initialState = {
+//   recipe: {}, loading: true, error: null, likes: [] 
 // };
 
-const initialState = {
-    likes: 0,
-    isUserLike: false,
-  };
 
-  export const recipeReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case 'RECIPE_FETCH':
-        return { ...action.payload };
-      case 'LIKE_RECIPE':
-        return {
-          ...state,
-          likes: state.likes + 1,
-          isUserLike: true
-        };
-      case 'UNLIKE_RECIPE':
-        return {
-          ...state,
-          likes: state.likes - 1,
-          isUserLike: false
-        };
-      default:
-        return state;
-    }
-  };
-  
-  
-//   export const recipeReducer = (state = initialState, action) => {
-//     console.log('state reducer', state);
-//     switch (action.type) {
-//       case 'RECIPE_FETCH':
-//         console.log();
-//         return { ...action.payload };
-//       case 'LIKE_RECIPE':
-//         return {
-//           ...state,
-//           likes: [...state.likes, action.payload],
-//           isUserLike: true
-//         };
-//       case 'UNLIKE_RECIPE':
-//         return {
-//           ...state,
-//           likes: state.likes.filter(like => like.userId !== action.payload),
-//           isUserLike: false
-//         };
-//       default:
-//         return state;
-//     }
-//   };
-  
+export const recipeReducer = (state, action) => {
+  // console.log('state',state);
+  // console.log('state.likes',state.likes);
+  // console.log('action',action);
+
+  switch (action.type) {
+    case 'FETCH_RECIPE':
+      const { recipe, likes, isUserLike } = action.payload;
+      return {
+        ...state,
+        recipe,
+        likes: Array.isArray(likes) ? likes : [],
+        isUserLike,
+        loading: false,
+      };
+    case 'FETCH_RECIPE_REQUEST':
+      return {
+        ...state,
+        loading: true,
+      };
+    case 'FETCH_RECIPE_FAILURE':
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+    // case 'FETCH_RECIPE':
+    //   return { ...action.payload };
+    case 'LIKE_RECIPE':
+      return {
+        ...state,
+        likes: [...state.likes, action.payload],
+        isUserLike: true
+      };
+
+    case 'UNLIKE_RECIPE':
+      return {
+        ...state,
+        likes: state.likes.filter(like => like !== action.payload),
+        isUserLike: false
+      }
+
+    default:
+      return state;
+  }
+}

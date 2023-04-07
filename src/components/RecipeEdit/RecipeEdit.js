@@ -7,6 +7,7 @@ import { useService } from "../../hooks/useService";
 import { recipeServiceFactory } from '../../services/recipeService';
 
 import styles from '../RecipeCreate/RecipeCreate.module.css'
+import { options } from '../formElements/options';
 import InputField from '../InputField/InputField';
 import Select from '../Select/Select';
 import TextAria from '../TextAria/TextAria';
@@ -24,24 +25,31 @@ export default function RecipeEdit() {
         }
     ]);
 
-    const options = [
-        { label: '', value: '' },
-        { label: 'Cakes', value: 'Cake' },
-        { label: 'Cupcakes', value: 'Cupcakes' },
-        { label: 'Donuts', value: 'Donuts' },
-        { label: 'Macarons', value: 'Macarons' },
-        { label: 'Croissant', value: 'Croissant' },
-        { label: 'Chocolate', value: 'Chocolate' },
-        { label: 'Ice Cream', value: 'Ice Cream' },
-        { label: 'Drinks', value: 'drinks' },
-        { label: 'Desserts', value: 'Valentine' },
-    ];
-
     const [category, setCategory] = useState(options[0]);
     const { onRecipeEditSubmit } = useRecipeContext();
     const { recipeId } = useParams();
+
+    const validate = (values) => {
+        const errors = {};
+        const touched = {};
+
+        if (!values.title) {
+            errors.title = "Title is required";
+        } else if ((values.title.length < 4) || (touched.title)) {
+            errors.title = "Title must be at least 4 characters long";
+        }
+
+        if (!values.image) {
+            errors.image = "Image url is required";
+        } else if (!(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/).test(values.image)) {
+            errors.image = "Image url must be valid";
+        }
+
+        return errors;
+    };
+
     const recipeService = useService(recipeServiceFactory)
-    const { values, onChangeHandler, changeValues, onSubmit } = useForm({
+    const { values, errors, touched, onChangeHandler, changeValues, onSubmit } = useForm({
         title: '',
         image: '',
         summary: '',
@@ -51,7 +59,7 @@ export default function RecipeEdit() {
         servings: 0,
         steps: inputSteps,
         extendedIngredients: inputIngredients,
-    }, onRecipeEditSubmit);
+    }, onRecipeEditSubmit, validate);
 
     useEffect(() => {
         recipeService.getOne(recipeId)
@@ -60,7 +68,7 @@ export default function RecipeEdit() {
                 setInpuSteps(result.steps);
                 setInputIngredients(result.extendedIngredients);
                 setCategory(result.dishTypes);
-                console.log('result.dishTypes',result.dishTypes);
+                // console.log('result.dishTypes', result.dishTypes);
             });
     }, [recipeId]);
 
@@ -141,14 +149,25 @@ export default function RecipeEdit() {
                     <form onSubmit={onSubmitHandler} id="create" method="PUT"  >
                         <div className={styles["form"]}>
                             <div>
-                                <InputField label="Title*" name="title" type="text"
+                                <InputField
+                                    id="title"
+                                    name="title"
+                                    label="Title*"
+                                    type="text"
                                     value={values.title}
-                                    onChangeHandler={onChangeHandler} />
-                                <InputField label="Image URL*" name="image" type="text"
+                                    onChangeHandler={onChangeHandler}
+                                    error={errors.title}
+                                    touched={touched.title}
+                                    minInputLength='4' />
+
+                                <InputField label="Image URL*" name="image" type="url"
                                     value={values.image}
-                                    onChangeHandler={onChangeHandler} />
+                                    onChangeHandler={onChangeHandler}
+                                    error={errors.image}
+                                    touched={touched.image}
+                                />
                                 <div>
-                                <Select
+                                    <Select
                                         name="dishTypes"
                                         label="Category"
                                         options={options}

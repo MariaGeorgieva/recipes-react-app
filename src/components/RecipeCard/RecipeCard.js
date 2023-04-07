@@ -15,25 +15,24 @@ import { recipeReducer } from '../../reducers/recipeReducer';
 
 export default function RecipeCard(r) {
     const { isAuthenticated, userId } = useAuthContext();
+    const [recipe, dispatch] = useReducer(recipeReducer, { recipe: {}, loading: true, error: null, likes: [] });
 
-    // const recipeService = useService(recipeServiceFactory)
-    const [recipe, dispatch] = useReducer(recipeReducer, {});
-    // const [isUserLike, setIsUserLike] = useState(false);
+    const isOwner = recipe._ownerId === userId;
+
 
     useEffect(() => {
         if (r._id) {
-
-
             Promise.all([
                 getAllRecipeLikes(r._id),
                 getLikeByRecipeAndUser(r._id, userId),
-            ]).then(([likes, isUserLike]) => {
-                const recipeState = {
-                    ...r,
-                    likes,
-                    isUserLike
+            ]).then(([likes, like]) => {
+                                const recipeState = {
+                    ...r, // original recipe
+                    likes, // TODO add likes array with their own data
+                    isUserLike: like[0] //TODO ok just true/false for user like recipe
                 };
-                dispatch({ type: 'RECIPE_FETCH', payload: recipeState });
+
+                dispatch({ type: 'FETCH_RECIPE', payload: recipeState });  //TODO not all from recipe
 
             });
         }
@@ -54,7 +53,7 @@ export default function RecipeCard(r) {
                                 <Link to={`/recipes/${r._id}`}>
                                     <ButtonPrimarySm value={'View details'} />
                                 </Link>
-                                {isAuthenticated &&
+                                {isAuthenticated && !isOwner &&
                                     <LikeButton
                                         likes={recipe.likes}
                                         isUserLike={recipe.isUserLike}

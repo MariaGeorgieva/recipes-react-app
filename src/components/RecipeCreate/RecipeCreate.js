@@ -3,6 +3,8 @@ import { useRecipeContext } from '../../contexts/RecipeContext'
 import { useForm } from '../../hooks/useForm';
 
 import styles from '../RecipeCreate/RecipeCreate.module.css'
+import { options } from '../formElements/options';
+
 import InputField from '../InputField/InputField';
 import TextAria from '../TextAria/TextAria';
 import DynamicInputField from '../RecipeCreate/DynamicInputField';
@@ -20,21 +22,42 @@ export default function RecipeCreate() {
         }
     ]);
 
-    const options = [
-        // { label: '', value: '' },
-        { label: 'Cakes', value: 'Cake' },
-        { label: 'Cupcakes', value: 'Cupcakes' },
-        { label: 'Donuts', value: 'Donuts' },
-        { label: 'Macarons', value: 'Macarons' },
-        { label: 'Croissant', value: 'Croissant' },
-        { label: 'Chocolate', value: 'Chocolate' },
-        { label: 'Ice Cream', value: 'Ice-Cream' },
-        { label: 'Drinks', value: 'drinks' },
-        { label: 'Desserts', value: 'Valentine' },
-    ];
+
+    const validate = (values) => {
+        const errors = {};
+        const touched = {};
+
+        if (!values.title) {
+            errors.title = "Title is required";
+        } else if ((values.title.length < 4) || (touched.title)) {
+            errors.title = "Title must be at least 4 characters long";
+        }
+
+        if (!values.image) {
+            errors.image = "Image url is required";
+        } else if (!(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/).test(values.image)) {
+            errors.image = "Image url must be valid";
+        }
+
+        // preparationMinutes: '',
+        if ((values.preparationMinutes < 0) || (touched.preparationMinutes)) {
+            errors.preparationMinutes = "Preparation time must be 0 or positive number";
+        }
+        // readyInMinutes: 0,
+        if ((values.readyInMinutes < 0) || (touched.readyInMinutes)) {
+            errors.readyInMinutes = "Cook time must be 0 or positive number";
+        }
+
+        // servings: 0,
+        if ((values.servings < 0) || (touched.servings)) {
+            errors.servings = "Servings time must be 0 or positive number";
+        }
+        
+        return errors;
+    };
 
     const { onCreateRecipeSubmit } = useRecipeContext();
-    const { values, onChangeHandler, onSubmit, changeValues } = useForm({
+    const { values, errors, touched, onChangeHandler, onSubmit, changeValues } = useForm({
         title: '',
         image: '',
         summary: '',
@@ -44,12 +67,11 @@ export default function RecipeCreate() {
         dishTypes: options[0].value,
         steps: inputSteps,
         extendedIngredients: inputIngredients,
-        // likes: []
-    }, onCreateRecipeSubmit);
+    }, onCreateRecipeSubmit, validate);
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        console.log(values);
+        console.log(values); //TODO
 
         onSubmit(e);
     }
@@ -118,10 +140,15 @@ export default function RecipeCreate() {
                                 <InputField label="Title*" name="title" type="text"
                                     value={values.title}
                                     onChangeHandler={onChangeHandler}
+                                    error={errors.title}
+                                    touched={touched.title}
+                                    minInputLength='4'
                                 />
                                 <InputField label="Image URL*" name="image" type="text"
                                     value={values.image}
                                     onChangeHandler={onChangeHandler}
+                                    error={errors.image}
+                                    touched={touched.image}
                                 />
                                 <Select
                                     name="dishTypes"
@@ -135,17 +162,30 @@ export default function RecipeCreate() {
                             <TextAria name="summary" label="Summary" id={'summary'} rows={11} cols={40}
                                 value={values.summary}
                                 onChangeHandler={onChangeHandler}
+
                             />
                             <div>
                                 <InputField label="Preparaion Time* (minutes)" name="preparationMinutes" type={'number'}
                                     value={values.preparationMinutes}
-                                    onChangeHandler={onChangeHandler} />
+                                    onChangeHandler={onChangeHandler}
+                                    error={errors.preparationMinutes}
+                                    touched={touched.preparationMinutes}
+                                    min={0}
+                                />
                                 <InputField label="Cook Time* (minutes)" name="readyInMinutes" type={'number'}
                                     value={values.readyInMinutes}
-                                    onChangeHandler={onChangeHandler} />
+                                    onChangeHandler={onChangeHandler}
+                                    error={errors.readyInMinutes}
+                                    touched={touched.readyInMinutes}
+                                    min={0}
+                                />
                                 <InputField label="Servings*" name="servings" type={'number'}
                                     value={values.servings}
-                                    onChangeHandler={onChangeHandler} />
+                                    onChangeHandler={onChangeHandler}
+                                    error={errors.servings}
+                                    touched={touched.servings}
+                                    min={0}
+                                />
                             </div>
 
                             <div className={styles["wrapper"]}>

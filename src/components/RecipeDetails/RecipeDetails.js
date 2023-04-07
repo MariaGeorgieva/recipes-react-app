@@ -50,7 +50,6 @@ export default function RecipeDetails() {
         }
     }, [recipeId])
 
-console.log("recipe details",recipe);
     const isOwner = recipe._ownerId === userId;
 
     const onDeleteClick = async () => {

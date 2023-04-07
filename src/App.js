@@ -17,8 +17,8 @@ import CategoryList from './components/CategoryList/CategoryList';
 import Profile from './components/Profile/Profile';
 import { RecipeProvider } from './contexts/RecipeContext';
 import RecipeEdit from './components/RecipeEdit/RecipeEdit';
-import { RouteGuard } from './components/common/RouteGuard';
-import { RecipeOwner } from './components/common/RecipeOwner';
+import { RouteGuard } from './components/Guards/RouteGuard';
+import { RecipeOwner } from './components/Guards/RecipeOwner';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
 
 
@@ -29,29 +29,29 @@ function App() {
       <AuthProvider>
         <RecipeProvider>
           <Navigation />
-<ErrorBoundary>
-          <Routes>
-            <Route path='/' element={<Homepage />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
+          <ErrorBoundary>
+            <Routes>
+              <Route path='/' element={<Homepage />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/register' element={<Register />} />
 
-            <Route path='/recipes' element={<RecipeList />} />
-            <Route path='/recipes/:recipeId/' element={<RecipeDetails />} />
+              <Route path='/recipes' element={<RecipeList />} />
+              <Route path='/recipes/:recipeId/' element={<RecipeDetails />} />
 
-            <Route element={<RouteGuard />}>
-              <Route path='/recipes/:recipeId/edit' element={
-                <RecipeOwner>
-                  <RecipeEdit />
-                </RecipeOwner>
-              } />
-              <Route path='/recipes/create/' element={<RecipeCreate />} />
-              <Route path='/logout' element={<Logout />} />
-              <Route path='/profile' element={<Profile />} />
-            </Route>
+              <Route element={<RouteGuard />}>
+                <Route path='/recipes/:recipeId/edit' element={
+                  <RecipeOwner>
+                    <RecipeEdit />
+                  </RecipeOwner>
+                } />
+                <Route path='/recipes/create/' element={<RecipeCreate />} />
+                <Route path='/logout' element={<Logout />} />
+                <Route path='/profile' element={<Profile />} />
+              </Route>
 
-            <Route path='/categories/' element={<Categories />} />
-            <Route path='/categories/:catName' element={<CategoryList />} />
-          </Routes>
+              <Route path='/categories/' element={<Categories />} />
+              <Route path='/categories/:catName' element={<CategoryList />} />
+            </Routes>
           </ErrorBoundary>
           <Footer />
 
