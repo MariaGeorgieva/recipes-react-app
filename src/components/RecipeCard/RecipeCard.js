@@ -74,8 +74,6 @@ export default function RecipeCard(r) {
                             <ButtonPrimarySm value={'View details'} />
                         </Link>}
 
-                        {/* <button className={styles["material-icons"]}><MdGrade /></button> */}
-
                     </div>
                 </div>
             </article>

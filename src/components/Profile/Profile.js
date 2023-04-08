@@ -53,8 +53,8 @@ export default function Profile() {
                         <img className={styles["img"]} src={chef} alt="Profile Avatar" />
                         <h2 className={styles["title"]}>email: {userEmail}</h2>
 
-                        <ButtonPrimarySm value="Edit profile" onClick={onEditHandler} />
-                        <ButtonPrimarySm value="Delete profile" onClick={onDeleteHandler} />
+                        {/* <ButtonPrimarySm value="Edit profile" onClick={onEditHandler} /> */}
+                        {/* <ButtonPrimarySm value="Delete profile" onClick={onDeleteHandler} /> */}
                     </div>
 
                     <div className={styles["container-form-column"]}>

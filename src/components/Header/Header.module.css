@@ -1,3 +1,9 @@
+.navigation-container {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #fff;
+}
 
 .header-hero {
     height: 70vh;
@@ -77,6 +83,7 @@
     color: var(--red-primary);
     font-weight: bold;
 }
+
 .top-href-span {
     font-family: 'Cookie', sans-serif;
     font-size: 28px;
@@ -86,8 +93,8 @@
 }
 
 .top-href-active {
-   
+
     color: var(--red-primary);
     font-weight: normal;
-    text-decoration:  wavy underline #FF3028;
+    text-decoration: wavy underline #FF3028;
 }
