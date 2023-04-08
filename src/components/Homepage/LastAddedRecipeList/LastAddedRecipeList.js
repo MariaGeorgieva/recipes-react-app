@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { recipeServiceFactory } from '../../../services/recipeService';
 
-import styles from '../../RecipeList/RecipeList.module.css'
+import styles from './LastAddedRecipeList.module.css'
 import RecipeCard from '../../RecipeCard/RecipeCard';
 import LoadingSpinner from "../../LoadingSpiner/LoadingSpinner";
 import Select from '../../Select/Select'
@@ -9,13 +9,16 @@ import Select from '../../Select/Select'
 export default function LastAddedRecipeList() {
     const [recipes, setRecipes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [pageSize, setPageSize] = useState(2);
+    const [pageSize, setPageSize] = useState(4);
 
     const recipeService = recipeServiceFactory();
 
     const options = [
-        { label: "2", value: 2 },
         { label: "4", value: 4 },
+        { label: "8", value: 8 },
+        { label: "16", value: 16 },
+        { label: "24", value: 24 },
+        { label: "32 ", value: 32 },
     ];
 
     useEffect(() => {
@@ -36,15 +39,17 @@ export default function LastAddedRecipeList() {
 
     return (
         <>
-            <h2 className={styles["title-categories"]}> <strong>Last added recipes</strong>  </h2>
-            <div>
-            <Select
-                    name="dishTypes"
+            <div className={styles["select"]}>
+                <h2 className={styles["title-categories"]}> <strong>Last added recipes</strong>  </h2>
+
+                <Select
+                    className={styles["select-width"]}
                     label="Recipes per page:"
                     options={options}
-                    value={options}
+                    value={options.value}
                     onChangeHandler={handlePageSizeChange}
-                />                
+                />
+
             </div>
             {isLoading ? <LoadingSpinner /> :
                 <div className={styles["container-articles"]}>

@@ -4,7 +4,7 @@ import styles from './AllRecipesList.module.css'
 import RecipeCard from '../RecipeCard/RecipeCard';
 
 
-export default function AllRecipeList() {
+export default function AllRecipesList() {
     const { recipes } = useRecipeContext()
     
     return (

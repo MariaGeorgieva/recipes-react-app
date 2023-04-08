@@ -29,15 +29,11 @@ export const recipeServiceFactory = (token) => {
 
     const getLatestRecipes = async () => {
         const result = await request.get(`${baseUrl}?sortBy=_createdOn%20desc`);
-        // console.log('getLatestRecipes', result);
         return result
     }
     const getLatestRecipesPaginate = async (pageSize) => {
         const searchQuery = `offset=0&pageSize=${pageSize}`;
-
         const result = await request.get(`${baseUrl}?sortBy=_createdOn%20desc&${searchQuery}`);
-
-        console.log('getLatestRecipesPaginate', result);
         return result;
     }
 

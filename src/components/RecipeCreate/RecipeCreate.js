@@ -52,7 +52,7 @@ export default function RecipeCreate() {
         if ((values.servings < 0) || (touched.servings)) {
             errors.servings = "Servings time must be 0 or positive number";
         }
-        
+
         return errors;
     };
 
@@ -170,14 +170,14 @@ export default function RecipeCreate() {
                                     onChangeHandler={onChangeHandler}
                                     error={errors.preparationMinutes}
                                     touched={touched.preparationMinutes}
-                                    min={1}
+                                    min={0}
                                 />
                                 <InputField label="Cook Time* (minutes)" name="readyInMinutes" type={'number'}
                                     value={values.readyInMinutes}
                                     onChangeHandler={onChangeHandler}
                                     error={errors.readyInMinutes}
                                     touched={touched.readyInMinutes}
-                                    min='1'
+                                    min={0}
                                 />
                                 <InputField label="Servings*" name="servings" type={'number'}
                                     value={values.servings}

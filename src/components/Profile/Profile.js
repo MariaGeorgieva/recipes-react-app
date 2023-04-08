@@ -5,7 +5,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 
 import styles from '../Profile/Profile.module.css';
 import chef from "../../assets/chefHat.svg"
-import { ButtonPrimary, ButtonPrimarySm } from '../Buttons/Buttons'
+import { ButtonPrimary } from '../Buttons/Buttons'
 import UserRecipeCard from './ProfileData/UserRecipeCard';
 import { recipeServiceFactory } from '../../services/recipeService';
 import * as likeService from '../../services/likeService'
@@ -19,13 +19,13 @@ export default function Profile() {
     const [userLikes, setUserLikes] = useState([]);
 
 
-    const onEditHandler = (userId) => {
-        // TODO not here
-    }
+    // const onEditHandler = (userId) => {
+    //     // TODO not here
+    // }
 
-    const onDeleteHandler = (userId) => {
+    // const onDeleteHandler = (userId) => {
 
-    }
+    // }
 
     useEffect(() => {
 

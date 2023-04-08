@@ -7,8 +7,8 @@
     font-size: 36px;
 }
 
-.title-categories strong{
-    font-size: 56px;  
+.title-categories strong {
+    font-size: 56px;
 }
 
 
@@ -23,14 +23,27 @@
 }
 
 
-@media (max-width: 1200px  ) {
+
+.select {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.select .select-width {
+    max-width: 120px;
+}
+
+@media (max-width: 1200px) {
     .container-articles {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media (max-width: 950px  ) {
+@media (max-width: 950px) {
     .container-articles {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -41,10 +54,7 @@
     .container-articles {
         display: grid;
         grid-template-columns: repeat(1, 1fr);
-        
+
     }
 
 }
-
-
-

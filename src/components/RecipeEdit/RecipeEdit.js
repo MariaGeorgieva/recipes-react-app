@@ -253,7 +253,7 @@ export default function RecipeEdit() {
                                 <button className={styles['btn-add']} onClick={addDynamicInputField} name="stepsBtn"> + Add Step</button>
                             </div>
                         </div>
-                        <ButtonPrimary type="submit" value={'Edit Recipe'} />
+                        <ButtonPrimary type="submit" value={'Save Recipe'} />
                         <ButtonPrimary type="text" value={'Cancel'} />
 
                     </form>

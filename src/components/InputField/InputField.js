@@ -10,19 +10,18 @@ export default function InputField({
   error,
   touched,
   minInputLength,
-  min
-
+  min,
 }) {
-  const isTooShort = value && value.length < minInputLength;
-  const isNegative = value < minInputLength;
-  const hasError = isTooShort || (error && touched);
-
+  const isNegative = type === 'number' && value < min;
+  const isTooShort = type === 'text' && value.length < minInputLength;
+  const hasError = isTooShort || isNegative || (error && touched);
 
   return (
     <div className={styles["input-container"]}>
       <input
-        min={min}
         required
+        min={min}
+        minLength={minInputLength}
         id={id}
         type={type}
         name={name}
@@ -34,12 +33,10 @@ export default function InputField({
       <label className={styles['filled']} htmlFor={label}>
         {label}
       </label>
+
       {isTooShort && <label className={styles['error-message']}>{label} must be at least {minInputLength} characters long</label>}
-      {hasError && <div className={styles['error-message']}>{error}</div>}
-
-
-
-
+      {isNegative && <label className={styles['error-message']}>{label} must be greater than or equal to {min}</label>}
+      {hasError && <label className={styles['error-message']}>{error}</label>}
     </div>
   );
 }
