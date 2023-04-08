@@ -1,6 +1,8 @@
 # Sweet Lovers React SPA
 
-This is a web application that allows users to search for and discover new recipes for their favorite sweet treats.
+Welcome to the Sweet Lovers Recipe App! This is a web application that allows users to browse sweet recipes from the Spoonacular API, as well as create, edit, and like/dislike their own recipes.
+
+![Example Image](./images/homepage.png)
 
 ## Table of Contents
 
