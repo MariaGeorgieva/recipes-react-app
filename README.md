@@ -12,7 +12,7 @@ Welcome to the Sweet Lovers Recipe App! This is a web application that allows us
 - [Routes](#routes)
 - [Authentication](#authentication)
 - [Extra Components](#extra-components)
-  - [InputField](extra-components.md#Reusable-InputField-Component)
+  - [InputField](extra-components.md#reusable-inputfield-component)
 - [Contributing](#contributing)
 - [License](#license)
 
