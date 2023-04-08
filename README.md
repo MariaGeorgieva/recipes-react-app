@@ -1,6 +1,6 @@
 # Sweet Lovers React SPA
 
-Welcome to the Sweet Lovers Recipe App! This is a web application that allows users to browse sweet recipes by categories and from the Spoonacular API, as well as create, edit, and like/dislike their own recipes.
+"Welcome to the Sweet Lovers Recipe App! This is a web application that allows users to browse sweet recipes from our server as well as the Spoonacular API, and create, edit, and like/dislike their own recipes. Our server provides a curated selection of sweet recipes that are sure to delight your taste buds, while the Spoonacular API offers a wide range of recipes from various sources. So whether you're in the mood for something familiar or want to try something new, our app has got you covered!"
 
 ![Homepage Image](./images/homepage.png)
 
@@ -17,7 +17,7 @@ Welcome to the Sweet Lovers Recipe App! This is a web application that allows us
 
 ## Features
 
-This app allows users to browse a collection of sweet recipes and create and save their own recipes. 
+This app allows users to browse a collection of sweet recipes and create and save their own recipes.
 
 Features include:
 
@@ -170,4 +170,3 @@ This project is licensed under the [MIT License](https://opensource.org/licenses
 You can find me on LinkedIn and connect with me there:
 
 [![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Profile-blue)](https://www.linkedin.com/in/maria-georgieva-mlove/)
-
