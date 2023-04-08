@@ -9,7 +9,6 @@ Welcome to the Sweet Lovers Recipe App! This is a web application that allows us
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -17,10 +16,12 @@ Welcome to the Sweet Lovers Recipe App! This is a web application that allows us
 
 This app allows users to browse a collection of sweet recipes and create and save their own recipes. Features include:
 
-- Browse all recipes
-- Search recipes by keyword
-- Create and save personal recipes
+<!-- - Homepage displays hero section, categories and user recipes descending -->
+- Browse all sweet recipes from users or/and Spoonacular API
+- Browse recipes by category from all users or from Spoonacular API
+- Create, edit and delete their personal recipes
 - View recipe details, including ingredients and instructions
+- Like and Dislike other users recipes
 
 ## Technologies Used
 
@@ -43,10 +44,6 @@ To run server, follow these steps:
 
 1.Clone the repository: `git clone https://github.com/softuni-practice-server/softuni-practice-server.git`
 2.Start the server by running 'nodemon -e * index.js -dev' in the root server directory
-
-## Usage
-
-To use the app, simply navigate to the deployed site and browse recipes or create your own.
 
 ## Contributing
 
