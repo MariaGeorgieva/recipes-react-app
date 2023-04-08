@@ -33,8 +33,8 @@ This app was built using the following technologies:
 
 - React.js
 - React Router Dom
-- [React Icons](https://react-icons.github.io/react-icons/) version 4.7.1
- -[Spoonacular API](https://spoonacular.com/food-api)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [Spoonacular API](https://spoonacular.com/food-api)
 
 ## Installation
 
