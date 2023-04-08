@@ -46,7 +46,8 @@ export default function AuthProvider({ children }) {
 
 
     const onLogout = async () => {
-        await authService.logout();
+        const result  = await authService.logout();
+        console.log('onLogout result', result);
         setAuth({});
 
     };

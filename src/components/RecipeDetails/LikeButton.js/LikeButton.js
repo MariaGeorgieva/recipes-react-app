@@ -1,4 +1,4 @@
-import { useReducer, useState, useEffect } from "react";
+import { useReducer, useState, useEffect, useCallback } from "react";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { recipeReducer } from "../../../reducers/recipeReducer";
 import * as likeService from '../../../services/likeService'
@@ -10,43 +10,35 @@ export default function LikeButton({
     likes,
     recipeId,
     isUserLike,
-    numberLikes
-
 }) {
-
-
-
     const [isLiked, setIsLiked] = useState(isUserLike);
     const [likesCount, setLikesCount] = useState(likes?.length || 0);
     const { userId } = useAuthContext();
     const [recipe, dispatch] = useReducer(recipeReducer, { recipe: {}, loading: true, error: null, likes: [] });
 
-    // console.log("Recipe state recipe.likes ", recipe.likes.length);
 
-    const handleLikeClick = async () => {
+    // Optimize the performance of component, to memoize the handleLikeClick function 
+    // and prevent it from being re-created on each re-render.
+    const handleLikeClick = useCallback(async () => {
         try {
             if (isLiked) {
                 const deletedLike = await likeService.unlikeRecipe(recipeId, userId);
-                // console.log('LikeButton deletedLike[1])', deletedLike[1]);
-
                 dispatch({
                     type: 'UNLIKE_RECIPE',
                     payload: deletedLike[1],
-                    // isUserLike: false
                 });
+
                 setLikesCount(likesCount - 1);
 
             } else {
-
                 const newLike = await likeService.likeRecipe(recipeId, userId);
-
-                // console.log('LikeButton add newLike', newLike);
                 dispatch({
                     type: 'LIKE_RECIPE',
                     payload: newLike,
                     // isUserLike: true
 
                 });
+
                 setLikesCount(likesCount + 1);
             }
 
@@ -54,7 +46,7 @@ export default function LikeButton({
         } catch (error) {
             console.log('Error liking recipe:', error);
         }
-    };
+    }, [isLiked, recipeId, userId, likesCount]);
 
     // update like state
     useEffect(() => {
@@ -74,7 +66,6 @@ export default function LikeButton({
                     :
                     <MdFavoriteBorder size={'30px'} color="#fa004b" />
                 }
-
                 {likesCount}
             </button>
         </>

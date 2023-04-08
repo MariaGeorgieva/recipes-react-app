@@ -13,10 +13,25 @@ export const recipeServiceFactory = (token) => {
         return recipes;
     };
 
+
+
     const getOne = async (recipeId) => {
         const result = await request.get(`${baseUrl}/${recipeId}`);
         return result;
     };
+
+    const getRecipesByCategory = async (category) => {
+        const searchQuery = encodeURIComponent(`dishTypes="${category}"`);
+        const result = await request.get(`${baseUrl}?where=${searchQuery}`);
+
+        return result
+    }
+
+    const getLatestRecipes = async () => {
+        const result = await request.get(`${baseUrl}?sortBy=_createdOn%20desc`);
+        console.log('getLatestRecipes', result);
+        return result
+    }
 
     const create = async (recipeData) => {
         console.log("recipeData", recipeData);
@@ -38,7 +53,7 @@ export const recipeServiceFactory = (token) => {
         return resultRecipes;
     };
 
-   
+
 
     return {
         getAll,
@@ -47,5 +62,7 @@ export const recipeServiceFactory = (token) => {
         edit,
         delete: deleteRecipe,
         getAllUserRecipes,
+        getRecipesByCategory,
+        getLatestRecipes
     };
 }

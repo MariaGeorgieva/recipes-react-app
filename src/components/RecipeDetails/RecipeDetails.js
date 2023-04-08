@@ -38,6 +38,8 @@ export default function RecipeDetails() {
         if (recipeId.length < 10) {
             recipeServiceAPI.getRecipeByIdAPI(recipeId)
                 .then(recipe => {
+                    console.log(recipe.instructions);
+
                     setRecipe(recipe);
                     setIsLoading(false);
                 });
@@ -52,7 +54,7 @@ export default function RecipeDetails() {
 
     const isOwner = recipe._ownerId === userId;
 
-    const onDeleteClick = async () => {
+    const onDeleteClick = async (recipe) => {
         // eslint-disable-next-line no-restricted-globals
         const result = confirm(`Are you sure you want to delete ${recipe.title}`);
          // TODO delete modal
@@ -67,7 +69,6 @@ export default function RecipeDetails() {
         }
     };
 
-
     return (
         <>
             {isLoading ? <LoadingSpinner /> :
@@ -75,7 +76,7 @@ export default function RecipeDetails() {
                     <header className={styles["header-container"]}>
                         <div className={styles["header-img"]}>
                             <img src={recipe.image || recipe.imgUrl} alt={recipe.title} />
-                            <Link to={`/recipes/${recipe._id}/edit`} className="button">Edit</Link>
+                            {/* <Link to={`/recipes/${recipe._id}/edit`} className="button">Edit</Link> */}
                         </div>
                         <div className={styles["recipe-info"]}>
                             <h2>{recipe.title}</h2>
@@ -153,8 +154,10 @@ export default function RecipeDetails() {
                             <h2>Instructions</h2>
                             <div>
                                 {recipe.id && recipe.instructions
+                               
                                     //TODO ? recipe.instructions.split('\r+\n').join('\n')
-                                    ? recipe.instructions
+                                    ? recipe.instructions.split('\r\n').map((instruction, index) => (
+                                        <li key={index}>{instruction}</li> ))
                                     : ""
                                 }
                                 {recipe._id && recipe.steps ?

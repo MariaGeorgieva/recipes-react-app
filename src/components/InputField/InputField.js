@@ -9,17 +9,19 @@ export default function InputField({
   onChangeHandler,
   error,
   touched,
-  minInputLength
+  minInputLength,
+  min
 
 }) {
   const isTooShort = value && value.length < minInputLength;
-  const isNegative = value  < minInputLength;
+  const isNegative = value < minInputLength;
   const hasError = isTooShort || (error && touched);
 
 
   return (
     <div className={styles["input-container"]}>
       <input
+        min={min}
         required
         id={id}
         type={type}
