@@ -12,15 +12,15 @@ Welcome to the Sweet Lovers Recipe App! This is a web application that allows us
 - [Routes](#routes)
 - [Authentication](#authentication)
 - [Extra Components](#extra-components)
-  - [InputField](extra-components.md#reusable-inputfield-component)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Features
 
-This app allows users to browse a collection of sweet recipes and create and save their own recipes. Features include:
+This app allows users to browse a collection of sweet recipes and create and save their own recipes. 
 
-<!-- - Homepage displays hero section, categories and user recipes descending -->
+Features include:
+
 - Browse all sweet recipes from users or/and Spoonacular API
 - Browse recipes by category from all users or from Spoonacular API
 - Create, edit and delete their personal recipes
@@ -56,20 +56,21 @@ The Sweet Lovers Recipe App uses the following routes:
 
 Public Routes
 
-GET / - Returns the homepage of the app which displays categories and featured recipes from all users.
-GET /recipes - Returns all sweet recipes from all users.
-GET /recipes/:id - Returns details of the recipe with the specified id.
-GET /categories/:category - Returns all sweet recipes from the specified category from Spoonacular API and from all users.
-POST /login - Login page that allows users to login to their account.
-POST /register - Register page that allows users to create a new account.
+`GET /` - Returns the homepage of the app which displays categories and featured recipes from all users.
+`GET /recipes` - Returns all sweet recipes from all users.
+`GET /recipes/:id` - Returns details of the recipe with the specified id.
+`GET /categories/:category` - Returns all sweet recipes from the specified category from Spoonacular API and from all users.
+`POST /login` - Login page that allows users to login to their account.
+`POST /register` - Register page that allows users to create a new account.
 
 Private Routes
 
-POST /recipes - Adds a new recipe to the database for the currently logged-in user.
-PUT /recipes/:id - Edit the recipe with the specified id in the database for the currently logged-in user.
-DELETE /recipes/:id - Deletes the recipe with the specified id from the database for the currently logged-in user.
-GET /profile - Returns all created and liked recipes by the currently logged-in user.
-POST /logout  - Logout page that allows users to logout from their account.
+`POST /recipes` - Adds a new recipe to the database for the currently logged-in user.
+`PUT /recipes/:id` - Edit the recipe with the specified id in the database for the currently logged-in user.
+`DELETE /recipes/:id` - Deletes the recipe with the specified id from the database for the currently logged-in user.
+`GET /profile` - Returns all created and liked recipes by the currently logged-in user.
+`POST /logout` - Logout page that allows users to logout from their account.
+
 Note: Private routes are only accessible by registered and authenticated users.
 
 ## Authentication
@@ -163,3 +164,10 @@ To contribute to the project, follow these steps:
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+## Connect with me on LinkedIn
+
+You can find me on LinkedIn and connect with me there:
+
+[![LinkedIn Profile](https://img.shields.io/badge/LinkedIn-Profile-blue)](https://www.linkedin.com/in/maria-georgieva-mlove/)
+
