@@ -45,6 +45,20 @@ export default function RecipeEdit() {
             errors.image = "Image url must be valid";
         }
 
+        // preparationMinutes: '',
+        if ((values.preparationMinutes < 0) || (touched.preparationMinutes)) {
+            errors.preparationMinutes = "Preparation time must be 0 or positive number";
+        }
+        // readyInMinutes: 0,
+        if ((values.readyInMinutes < 0) || (touched.readyInMinutes)) {
+            errors.readyInMinutes = "Cook time must be 0 or positive number";
+        }
+
+        // servings: 0,
+        if ((values.servings < 0) || (touched.servings)) {
+            errors.servings = "Servings time must be 0 or positive number";
+        }
+
         return errors;
     };
 
@@ -182,13 +196,22 @@ export default function RecipeEdit() {
                             <div>
                                 <InputField label="Preparaion Time* (minutes)" name="preparationMinutes" type={'number'}
                                     value={values.preparationMinutes}
-                                    onChangeHandler={onChangeHandler} />
+                                    onChangeHandler={onChangeHandler} 
+                                    error={errors.preparationMinutes}
+                                    touched={touched.preparationMinutes}
+                                    min={0}/>
                                 <InputField label="Cook Time* (minutes)" name="readyInMinutes" type={'number'}
                                     value={values.readyInMinutes}
-                                    onChangeHandler={onChangeHandler} />
+                                    onChangeHandler={onChangeHandler}
+                                    error={errors.readyInMinutes}
+                                    touched={touched.readyInMinutes}
+                                    min={0} />
                                 <InputField label="Servings*" name="servings" type={'number'}
                                     value={values.servings}
-                                    onChangeHandler={onChangeHandler} />
+                                    onChangeHandler={onChangeHandler}
+                                    error={errors.servings}
+                                    touched={touched.servings}
+                                    min={0} />
                             </div>
 
                             <div className={styles["wrapper"]}>

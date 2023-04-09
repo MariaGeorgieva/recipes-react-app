@@ -47,6 +47,7 @@ export default function RecipeDetails() {
             recipeService.getOne(recipeId)
                 .then(recipe => {
                     setRecipe(recipe);
+                    console.log('useEffect recipe', recipe);
                     setIsLoading(false);
                 });
         }
@@ -54,7 +55,8 @@ export default function RecipeDetails() {
 
     const isOwner = recipe._ownerId === userId;
 
-    const onDeleteClick = async (recipe) => {
+    const onDeleteClick = async () => {
+        // console.log('delete recipe', recipe,recipeId);
         // eslint-disable-next-line no-restricted-globals
         const result = confirm(`Are you sure you want to delete ${recipe.title}`);
          // TODO delete modal
